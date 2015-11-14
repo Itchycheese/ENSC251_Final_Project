@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1447291343 source:d:\google_drive\sfu\2015-03_fall\ensc_251\final_project\assignment3.cpp
+	"parserClasses.h"
+	<iostream>
+	<fstream>
+
+1445907835 d:\google_drive\sfu\2015-03_fall\ensc_251\final_project\parserclasses.h
+	<string>
+
+1445907835 source:d:\google_drive\sfu\2015-03_fall\ensc_251\final_project\parserclasses.cpp
+	"parserClasses.h"
+	<string>
+
