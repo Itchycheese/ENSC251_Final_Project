@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="parserClasses.cpp" />
+		<Unit filename="parserClasses.h" />
+		<Unit filename="project.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

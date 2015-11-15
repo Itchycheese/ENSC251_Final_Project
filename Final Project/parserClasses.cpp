@@ -13,6 +13,13 @@ ENSC 251 Assignment 3
 //****TokenList class function definitions******
 //           function implementations for append have been provided and do not need to be modified
 
+//copy constructor
+Token::Token(const Token &token)
+{
+    setNext(token.getNext)
+}
+
+
 //Creates a new token for the string input, str
 //Appends this new token to the TokenList
 //On return from the function, it will be the last token in the list
@@ -38,14 +45,6 @@ void TokenList::append(Token *token) {
 
 //Complete the implementation of the following member functions:
 //****Tokenizer class function definitions******
-
-size_t Tokenizer::givesSmallest(size_t a, size_t b) //returns the smaller of the two numbers.
-{
-    if (a < b)
-        return a;
-    else
-        return b;
-}
 
 //Computes a new tokenLength for the next token
 //Modifies: size_t tokenLength, and bool complete

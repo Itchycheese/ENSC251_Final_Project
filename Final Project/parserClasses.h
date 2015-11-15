@@ -21,7 +21,7 @@ private:
 	Token *next; //Next pointer for doubly linked list
 	Token *prev; //Previous pointer for doubly linked list
 	string stringRep; //Token value
-	 
+
   bool _isKeyword; //true if token is a reserved keyword
   tokenType type; //enum that holds the type of the token
   tokenDetails *details; //pointer to tokenDetails struct, owned by this token, only valid if type is T_Literal or  is a T_Identifier and is a variable/signal.  Lazy allocation, only allocated when needed (see setTokenDetails function declaration).
@@ -36,7 +36,7 @@ public:
 	Token();
 
 	//Constructor with string initialization
-	Token(const string &stringRep);		
+	Token(const string &stringRep);
 
   //Copy constructor
   Token(const Token &token);
@@ -47,13 +47,13 @@ public:
   //Assignment operator
   void operator =(const Token& token);
 
-	//Returns the Token's *next member 
+	//Returns the Token's *next member
 	Token* getNext ( ) const {  return next; }
 
 	//Sets the Token's *next member
 	void setNext (Token* next ) { this->next = next; }
 
-	//Returns the Token's *prev member 
+	//Returns the Token's *prev member
 	Token* getPrev ( ) const { return prev; }
 
 	//Sets the Token's *prev member
@@ -102,11 +102,11 @@ class TokenList {
 private:
 	Token *head; //Points to the head of the token list (doubly linked)
 	Token *tail; //Points to the tail of the function list (doubly linked)
-	
+
 public:
 	//Default Constructor, Empty list with pointers initialized to NULL
 	TokenList() : head(nullptr), tail(nullptr) { }
-	
+
 	//Returns a pointer to the head of the list
 	Token* getFirst() const { return head; }
 
@@ -137,7 +137,7 @@ class Tokenizer {
 private:
 	/*State tracking variables for processing a single string*/
 	bool complete; //True if finished processing the current string
-	
+
 	size_t offset; //Current position in string
 	size_t tokenLength; //Current token length
 	string *str; //A pointer to the current string being processed
@@ -150,7 +150,7 @@ private:
 	//(Optionally): may modify offset
 	//Does NOT modify any other member variable of Tokenizer
 	void prepareNextToken();
-	
+
 public:
 	//Default Constructor- YOU need to add the member variable initializers.
 	Tokenizer() { /*Fill in implementation */ }
@@ -186,7 +186,7 @@ int removeTokensOfType(TokenList &tokenList, tokenType type);
 //Each token that is part of a condtional expression is appended sequentially
 //At the end of a conditional expression a newline character is appened
    //Example: if (a = true) then
-   //Your list should include "(", "a", "=", "true", ")" and "\n" 
+   //Your list should include "(", "a", "=", "true", ")" and "\n"
 //tokenList is NOT modified
 TokenList* findAllConditionalExpressions(const TokenList &tokenList);
 
