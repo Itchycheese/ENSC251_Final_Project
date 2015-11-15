@@ -15,6 +15,8 @@ struct tokenDetails {
 
 //Declare your variables for storing delimiters here:
 
+
+
 //Token class for a doubly-linked list of string tokens
 class Token {
 private:
@@ -33,16 +35,26 @@ private:
 public:
 	//Default Constructor, pointers initialized to NULL, and other variable initialization
   //tokenDetails should NOT be allocated here
-	Token();
+	Token() : next(nullptr), prev(nullptr), details(nullptr) { }
 
 	//Constructor with string initialization
-	Token(const string &stringRep);
+	Token(const string &stringRep) : next(nullptr), prev(nullptr), stringRep(stringRep), details(nullptr), type(T_Other) { }
 
   //Copy constructor
-  Token(const Token &token);
+  Token(const Token &token)
+  {
+      next = token.next;
+      prev = token.prev;
+      details = token.details;
+      _isKeyword = token._isKeyword;
+      type = token.type;
+  }
 
   //Destructor, free any memory owned by this object
-  ~Token();
+  ~Token()
+  {
+      delete details;
+  }
 
   //Assignment operator
   void operator =(const Token& token);
