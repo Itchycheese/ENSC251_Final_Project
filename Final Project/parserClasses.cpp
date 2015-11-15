@@ -31,7 +31,7 @@ string operatorList[28] =
 string identifierList[100] =
 {
     "signal"
-}
+};
 
 //****TokenList class function definitions******
 //           function implementations for append have been provided and do not need to be modified
