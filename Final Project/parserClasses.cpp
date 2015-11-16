@@ -421,6 +421,7 @@ int removeComments(TokenList &tokenList)
     temp2 = temp ->getNext();
     temp3 = temp2 ->getNext();
     temp4 = temp ->getPrev();
+    int count1 = 0;///number of comments removed
     while ( temp2 ->getNext() != nullptr)///delete the comment until the last two token
     {
         if ( temp->getStringRep() == "--")
@@ -430,6 +431,8 @@ int removeComments(TokenList &tokenList)
             temp = temp3;
             temp2 = temp3->getNext();
             temp3 = temp2->getNext();
+            count1++;
+
         }
         else
         {
@@ -438,53 +441,20 @@ int removeComments(TokenList &tokenList)
             temp3 = temp3 ->getNext();
         }
     }
-    if (temp ->getStringRep() == "--")
+    if (temp ->getStringRep() == "--") ///checking the last 2 nodes
     {
         tokenList.deleteToken(temp);
         tokenList.deleteToken(temp2);
+        count1++;
+
     }
     else if ( temp2->getStringRep()== "--")
     {
         tokenList.deleteToken(temp2);
-    }
-  /*  while (temp ->getStringRep()== "--") ///the case the first line is a comment - go into the loops until the first line is not a comment
-    {
-        tokenList.deleteToken(temp);
-        tokenList.deleteToken(temp2);
-        temp = tokenList.getFirst(); ///increment of temp and temp2
-        temp2 = temp->getNext();
-    }
+        count1 ++;
 
-    while ((temp2->getNext()) != nullptr) ///check the if it the comment until the end of the list
-    {
-        temp3 = temp->getPrev(); //adjust temp3 and temp4 after the increment of temp and temp2 in previous loop
-        temp4=temp2->getNext();
-        if (temp->getStringRep() == "--") // if temp is contain "--" temp and temp2 are comments
-        {
-            tokenList.deleteToken(temp);
-            tokenList.deleteToken(temp2);
-            temp = temp4;
-            temp2 = temp4->getNext(); //after delete the comments token, adjust temp and temp2 to the new position
-        }
-        //case we not delete anything -> increment
-        temp = temp->getNext();
-        temp2 = temp2->getNext();
     }
-    /// the above loop reach the end when temp and temp2 is the last 2 node of the token link list
-    ///we check the last 2 node if they are comments
-
-    if (temp2->getStringRep()== "--" && temp->getStringRep() != "--") ///only the last node is a comment
-    {
-
-        temp->setNext(nullptr);
-        tokenList.deleteToken(temp2);
-    }
-    else if ( temp->getStringRep()=="--") ///both 2 last node are comments
-    {
-        tokenList.deleteToken (temp);
-        tokenList.deleteToken (temp2);
-    }
-    */
+    return count1;
 }
 
 
