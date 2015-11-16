@@ -472,6 +472,7 @@ int removeTokensOfType(TokenList &tokenList, tokenType type)
         if (currentToken->getTokenType() == type)
         {
             tokenList.deleteToken(currentToken);
+            ///count number of remove token
             numberRemoved++;
             ///move to next node
             currentToken = nextToken;
@@ -482,4 +483,5 @@ int removeTokensOfType(TokenList &tokenList, tokenType type)
             ///increment of the loop
         }
     }
+    return numberRemoved;
 }
