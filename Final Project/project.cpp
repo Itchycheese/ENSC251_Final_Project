@@ -36,17 +36,18 @@ int main() {
 			tokens.append(tokenizer.getNextToken());
 		}
 	}
-
+    ///removeComments(tokens); ///test remove comment
 
 	/*Test your tokenization of the file by traversing the tokens list and printing out the tokens*/
 	Token *t = tokens.getFirst();
 	while(t) {
-		cout << t->getStringRep() << " ";
+		cout << t->getStringRep() << " " << endl;
 		t = t->getNext();
 	}
 
   /* For your testing purposes only */
-
+    ///test remove token type
+    ///removeTokensOfType(tokens, T_Operator);
   /* Ensure that tokens have all type information set*/
 
   /* Create operator,identifier,literal, etc. tokenLists from the master list of tokens */
