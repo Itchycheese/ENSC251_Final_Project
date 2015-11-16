@@ -457,4 +457,29 @@ int removeComments(TokenList &tokenList)
     return count1;
 }
 
+//Removes all tokens of the given tokenType
+//Returns the number of tokens removed
+int removeTokensOfType(TokenList &tokenList, tokenType type)
+{
+    Token *currentToken = nullptr; ///pointer point to current node of token list
+    Token *nextToken = nullptr; ///pointer point to the next node of the token list
+    currentToken = tokenList.getFirst();
+    int numberRemoved =0;
 
+    while (currentToken!= nullptr)
+    {
+        nextToken = currentToken->getNext();
+        if (currentToken->getTokenType() == type)
+        {
+            tokenList.deleteToken(currentToken);
+            numberRemoved++;
+            ///move to next node
+            currentToken = nextToken;
+        }
+        else
+        {
+            currentToken = nextToken;
+            ///increment of the loop
+        }
+    }
+}
