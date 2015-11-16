@@ -15,7 +15,28 @@ struct tokenDetails {
 
 //Declare your variables for storing delimiters here:
 
+const string keyWordList[97] =
+{
+    "abs", "access", "after", "alias", "all", "and", "architecture", "array", "assert", "attribute",
+    "begin", "block", "body", "buffer", "bus", "case", "component", "configuration", "constant", "disconnect",
+    "downto", "else", "elsif", "end", "entity", "exit", "file", "for", "function", "generate", "generic", "group",
+    "guarded", "if", "impure", "in", "inertial", "inout", "is", "label", "library", "linkage", "literal", "loop", "map",
+    "mod", "nand", "new", "next", "nor", "not", "null", "of", "on", "open", "or", "others", "out", "package", "port", "postponed",
+    "procedure", "process", "pure", "range", "record", "register", "reject", "rem", "report", "return", "rol", "ror", "select",
+    "severity", "signal", "shared", "sla", "sll", "sra", "srl", "subtype", "then", "to", "transport", "type", "units", "unaffected",
+    "until", "use", "variable","wait","when", "while","with","xnor","xor"
+};
 
+const string operatorList[28] =
+{
+    "**", "abs", "not", "*" ,"/" , "mod","rem","+","-","&","sll","srl","sla","sra","rol","ror","=",
+    "/=","<","<=",">",">=","and","or","nand","nor","xor","xnor"
+};
+
+ const string identifierList[1] =
+{
+    "signal"
+};
 
 //Token class for a doubly-linked list of string tokens
 class Token {

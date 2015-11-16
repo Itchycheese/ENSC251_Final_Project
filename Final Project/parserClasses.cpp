@@ -3,35 +3,17 @@ Name : Isaac Cheng Hui Tan (301247997), Tran Xuan Nhan Le [Ray] (301243743)
 ENSC 251 Final Pro
 */
 
-//Use only the following libraries:
+
 #include "parserClasses.h"
 #include <string>
+#include <locale>
 /// debug code
 //#include <iostream>
 
 
-string keyWordList[97] =
-{
-    "abs", "access", "after", "alias", "all", "and", "architecture", "array", "assert", "attribute",
-    "begin", "block", "body", "buffer", "bus", "case", "component", "configuration", "constant", "disconnect",
-    "downto", "else", "elsif", "end", "entity", "exit", "file", "for", "function", "generate", "generic", "group",
-    "guarded", "if", "impure", "in", "inertial", "inout", "is", "label", "library", "linkage", "literal", "loop", "map",
-    "mod", "nand", "new", "next", "nor", "not", "null", "of", "on", "open", "or", "others", "out", "package", "port", "postponed",
-    "proceedure", "process", "pure", "range", "record", "register", "reject", "rem", "report", "return", "rol", "ror", "select",
-    "severity", "signal", "shared", "sla", "sll", "sra", "srl", "subtype", "then", "to", "transport", "type", "units", "unaffected",
-    "until", "use", "variable","wait","when", "while","with","xnor","xor"
-};
 
-string operatorList[28] =
-{
-    "**", "abs", "not", "*" ,"/" , "mod","rem","+","-","&","sll","srl","sla","sra","rol","ror","=",
-    "/=","<","<=",">",">=","and","or","nand","nor","xor","xnor"
-};
 
-string identifierList[100] =
-{
-    "signal"
-};
+
 
 //****TokenList class function definitions******
 //           function implementations for append have been provided and do not need to be modified
@@ -447,44 +429,58 @@ int removeComments(TokenList &tokenList)
     {
         tokenList.deleteToken(temp2);
     }
-  /*  while (temp ->getStringRep()== "--") ///the case the first line is a comment - go into the loops until the first line is not a comment
-    {
-        tokenList.deleteToken(temp);
-        tokenList.deleteToken(temp2);
-        temp = tokenList.getFirst(); ///increment of temp and temp2
-        temp2 = temp->getNext();
-    }
-
-    while ((temp2->getNext()) != nullptr) ///check the if it the comment until the end of the list
-    {
-        temp3 = temp->getPrev(); //adjust temp3 and temp4 after the increment of temp and temp2 in previous loop
-        temp4=temp2->getNext();
-        if (temp->getStringRep() == "--") // if temp is contain "--" temp and temp2 are comments
-        {
-            tokenList.deleteToken(temp);
-            tokenList.deleteToken(temp2);
-            temp = temp4;
-            temp2 = temp4->getNext(); //after delete the comments token, adjust temp and temp2 to the new position
-        }
-        //case we not delete anything -> increment
-        temp = temp->getNext();
-        temp2 = temp2->getNext();
-    }
-    /// the above loop reach the end when temp and temp2 is the last 2 node of the token link list
-    ///we check the last 2 node if they are comments
-
-    if (temp2->getStringRep()== "--" && temp->getStringRep() != "--") ///only the last node is a comment
-    {
-
-        temp->setNext(nullptr);
-        tokenList.deleteToken(temp2);
-    }
-    else if ( temp->getStringRep()=="--") ///both 2 last node are comments
-    {
-        tokenList.deleteToken (temp);
-        tokenList.deleteToken (temp2);
-    }
-    */
 }
 
 
+
+void TokenList::findAndSetTokenDetails(Token *token)
+{
+    std::locale loc;
+    string tokenIs;
+    size_t strSize;
+    string firstchar;
+    string secondchar;
+    size_t firstcharflag;
+    size_t secondcharflag;
+    tokenIs = token->getStringRep();
+    strSize = tokenIs.size();
+    for (int ii=0; ii<strSize; ++ii)
+    {
+        tokenIs[ii] = tolower(tokenIs[ii],loc);
+    }
+
+    /// Checks to see if the token is a keyword.
+    for(int ii=0; ii < 97; ii++)
+    {
+        if (tokenIs == keyWordList[ii])
+        {
+            token->setKeyword();
+            break;
+        }
+    }
+
+    /// Checks to see if the token is a literal.
+    firstchar = tokenIs.substr(0,1); //check if it is a integer.
+    firstcharflag = firstchar.find_first_of("0123456789",0);
+    if(firstcharflag == 0)
+    {
+        token->setTokenType(T_Literal);
+        token->setTokenDetails("integer",strSize);
+    }
+    firstcharflag = firstchar.find_first_of("bBOoxX",0)
+    if(firstchar == 0)
+    {
+        secondchar = tokenIs.substr(1,1);
+            if(secondchar == "\"")
+            {
+
+            }
+    }
+
+
+
+
+
+
+
+}
