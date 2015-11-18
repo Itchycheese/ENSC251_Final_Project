@@ -30,6 +30,8 @@ void TokenList::append(const string &str) {
 //Appends the token to the TokenList if not null
 //On return from the function, it will be the last token in the list
 void TokenList::append(Token *token) {
+
+	findAndSetTokenDetails(token);
 	if (!head) {
 		head = token;
 		tail = token;
@@ -352,6 +354,11 @@ string Tokenizer::getNextToken()
 }
 
 
+void Token::setTokenDetails(const string &type, int width = 0)
+{
+
+}
+
 
 //****Challenge Task Functions******
 
@@ -442,6 +449,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
     string secondchar;
     size_t firstcharflag;
     size_t secondcharflag;
+    char lowChar;
+    int = bitWidthMultiplier = 1;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
     for (int ii=0; ii<strSize; ++ii)
@@ -467,12 +476,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
         token->setTokenType(T_Literal);
         token->setTokenDetails("integer",strSize);
     }
-    firstcharflag = firstchar.find_first_of("bBOoxX",0)
-    if(firstchar == 0)
+    firstcharflag = firstchar.find_first_of("bBOoxX",0);
+    if(firstcharflag == 0)
     {
         secondchar = tokenIs.substr(1,1);
             if(secondchar == "\"")
             {
+                lowChar = tolower(firstchar);
 
             }
     }
