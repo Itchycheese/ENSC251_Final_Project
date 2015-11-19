@@ -492,8 +492,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     previous_token = token.getPrev();
     if ( previous_token == "--") /// this token is a comment body
     {
-
-
+        token.setTokenType(T_CommentBody);
     }
 
 
