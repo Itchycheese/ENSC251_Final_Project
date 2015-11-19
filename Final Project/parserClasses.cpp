@@ -362,6 +362,23 @@ void Token::setTokenDetails(const string &type, int width)
     details->width = width;
 }
 
+TokenList* findAllConditionalExpressions(const TokenList &TokenList)
+{
+    Token *current;
+    bool insideConditional = false;
+    current = TokenList.getFirst();
+    TokenList *returnedList = new TokenList;
+    while(current->getNext() != nullptr)
+    {
+        if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when")
+        {
+            insideConditional = true;
+        }
+
+        current = current->getNext();
+    }
+    return returnedList;
+}
 
 //****Challenge Task Functions******
 
@@ -459,7 +476,6 @@ void TokenList::findAndSetTokenDetails(Token *token)
     strSize = tokenIs.size();
 
     Token *previous_token = nullptr;
-<<<<<<< HEAD
     previous_token = token->getPrev();
     string previous_token_string = previous_token->getStringRep();
 
@@ -472,9 +488,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     string token_type_string = token_type->getSringRep();
 
     lastchar = tokenIs.substr(strSize-1,1);
-=======
     lastchar = '\0';
->>>>>>> origin/master
 
     if(strSize != 1)
     {
