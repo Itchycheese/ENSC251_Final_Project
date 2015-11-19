@@ -700,8 +700,33 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 }
     /// it will type Other if it not any other type - which is the default type in the default constructor
 
+}
 
-
-
-
+int removeTokensOfType(TokenList &tokenList, tokenType type)
+{
+    Token *current = nullptr;
+    current = tokenList.getFirst();
+    Token *next_token = nullptr;
+    next_token = current ->getNext();
+    int num_token_delete = 0;
+    while (next_token != nullptr)
+    {
+        if (current->getTokenType() == type)
+        {
+            tokenList.deleteToken(current);
+            num_token_delete ++;
+            current = next_token;
+            next_token=current->getNext();
+        }
+        current = next_token;
+        next_token = current->getNext();
+    }
+    if (current->getTokenType() == type) /// the last node of the token list
+        {
+            tokenList.deleteToken(current);
+            num_token_delete ++;
+            current = next_token;
+            next_token=current->getNext();
+        }
+    return num_token_delete;
 }
