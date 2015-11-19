@@ -365,15 +365,36 @@ void Token::setTokenDetails(const string &type, int width)
     details->width = width;
 }
 
-TokenList* findAllConditionalExpressions(const TokenList &TokenList)
+TokenList* findAllConditionalExpressions(const TokenList &inList)
 {
     Token *current;
     bool insideConditional = false;
-    current = TokenList.getFirst();
-    TokenList *returnedList = new TokenList;
+    current = inList.getFirst();
+    TokenList *returnedList = new TokenList();
+
     while(current->getNext() != nullptr)
     {
-        if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when")
+        if(current->getStringRep() == "else" || current->getStringRep() == "then")
+        {
+            returnedList->append("\\n");
+            insideConditional = false;
+        }
+
+        if(insideConditional)
+        {
+            Token* copyOfToken = new Token();
+            copyOfToken->stringRep = current->getStringRep();
+            copyOfToken->setNext(current->getNext());
+            copyOfToken->setPrev(current->setPrev());
+            copyOfToken->setTokenDetails();
+            if(current->isKeyword())
+            {
+                copyOfToken->setKeyword();
+            }
+            copyOfToken->setTokenType(current->getTokenType());
+            returnedList->append(copyOfToken);
+        }
+        else if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when")
         {
             insideConditional = true;
         }
