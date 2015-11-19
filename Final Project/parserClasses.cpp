@@ -493,6 +493,31 @@ void TokenList::findAndSetTokenDetails(Token *token)
     if ( previous_token == "--") /// this token is a comment body
     {
         token.setTokenType(T_CommentBody);
+        token.setTokenDetails("comment",0);
+    }
+    ///check to see if a token is a identifier
+    firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
+    if(firstcharflag == 0)
+    {
+        secondchar = tokenIs.substr(1,1);
+            if (strSize == 1)
+            {
+                token.setTokenType(T_Identifier);
+                token.setTokenDetails("identifier",0);
+            }
+            else if (secondchar != "\"" )
+            {
+
+                for(int ii=0; ii < 28; ii++)
+                {
+                    if (tokenIs != operatorList[ii])
+                    {
+                        token.setTokenType(T_Identifier);
+                        token.setTokenDetails("identifier",0);
+                        break;
+                    }
+                }
+            }
     }
 
 
