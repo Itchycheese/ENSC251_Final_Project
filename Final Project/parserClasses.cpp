@@ -517,8 +517,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
     previous_token = token.getPrev();
     if ( previous_token == "--") /// this token is a comment body
     {
-        token.setTokenType(T_CommentBody);
-        token.setTokenDetails("comment",0);
+        token->setTokenType(T_CommentBody);
+        token->setTokenDetails("comment",0);
     }
     ///check to see if a token is a identifier
     firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
@@ -527,8 +527,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
         secondchar = tokenIs.substr(1,1);
             if (strSize == 1)
             {
-                token.setTokenType(T_Identifier);
-                token.setTokenDetails("identifier",0);
+                token->setTokenType(T_Identifier);
+                token->setTokenDetails("identifier",0);
             }
             else if (secondchar != "\"" )
             {
@@ -537,14 +537,24 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 {
                     if (tokenIs != operatorList[ii])
                     {
-                        token.setTokenType(T_Identifier);
-                        token.setTokenDetails("identifier",0);
+                        token->setTokenType(T_Identifier);
+                        token->setTokenDetails("identifier",0);
                         break;
                     }
                 }
             }
     }
-
+    ///check to see if token is an operator
+            for(int ii=0; ii < 28; ii++)
+                {
+                    if (tokenIs == operatorList[ii])
+                    {
+                        token->setTokenType(T_Operator);
+                        token->setTokenDetails("operator",0);
+                        break;
+                    }
+                }
+    /// it will type Other if it not any other type
 
 
 
