@@ -8,8 +8,11 @@ ENSC 251 Final Pro
 #include <string>
 #include <clocale>
 #include <cctype>
+#include <stdlib.h>
+#include <stdio.h>
 /// debug code
 //#include <iostream>
+
 
 
 
@@ -481,11 +484,11 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
     Token *next_token = nullptr;
     next_token = token->getNext();
-    string next_token_string = next_token->getSringRep;
+    string next_token_string = next_token->getStringRep();
 
     Token *token_type = nullptr;
     token_type = next_token->getNext();
-    string token_type_string = token_type->getSringRep();
+    string token_type_string = token_type->getStringRep();
 
     lastchar = tokenIs.substr(strSize-1,1);
     lastchar = '\0';
@@ -588,7 +591,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     {
                         Token *bracket_check = nullptr;
                         bracket_check = token_type->getNext();
-                        string bracket_check_str = token_type->getNext(); // to check if next token is a bracket
+                        string bracket_check_str = token_type->getStringRep(); // to check if next token is a bracket
                         if (bracket_check_str == "(" )
                         {
                             //check if inside the bracket there is a to/downto
@@ -602,8 +605,11 @@ void TokenList::findAndSetTokenDetails(Token *token)
                                  string first_number_str = first_number->getStringRep();
                                  Token *second_number = vector_check->getNext();
                                  string second_number_str = second_number->getStringRep();
-                                 int width_token = abs( atoi(second_number_str) - atoi(first_number_str) ) +1;
-                                 token->getTokenDetails(token_type_string, width_token);
+                                 int firstnum = 0;
+                                 firstnum = stoi(second_number_str);
+                                 int secondnum = stoi(first_number_str);
+                                 int width_token = abs( firstnum - secondnum ) +1;
+                                 token->setTokenDetails(token_type_string, width_token);
                                  ///need to consider about default value if needed
                             }
                             else
@@ -630,7 +636,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                         {
                             Token *bracket_check = nullptr;
                             bracket_check = token_type->getNext();
-                            string bracket_check_str = token_type->getNext(); // to check if next token is a bracket
+                            string bracket_check_str = token_type->getStringRep(); // to check if next token is a bracket
                             if (bracket_check_str == "(" )
                             {
                                 //check if inside the bracket there is a to/downto
@@ -644,8 +650,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
                                      string first_number_str = first_number->getStringRep();
                                      Token *second_number = vector_check->getNext();
                                      string second_number_str = second_number->getStringRep();
-                                     int width_token = abs( atoi(second_number_str) - atoi(first_number_str) ) +1;
-                                     token->getTokenDetails(token_type_string, width_token);
+                                     int width_token = abs( stoi(second_number_str) - stoi(first_number_str) ) +1;
+                                     token->setTokenDetails(token_type_string, width_token);
                                      ///need to consider about default value if needed
                                 }
                                 else
