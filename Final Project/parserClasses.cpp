@@ -535,10 +535,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
             token->setTokenDetails("Literal", bitWidth);
         }
     }
-    else if (firstchar.compare("(") == 0)
-    {
 
-    }
 
     ///check if token is a comment body
     previous_token = token.getPrev();
