@@ -355,9 +355,11 @@ string Tokenizer::getNextToken()
 }
 
 
-void Token::setTokenDetails(const string &type, int width = 0)
+void Token::setTokenDetails(const string &type, int width)
 {
-
+    details = new tokenDetails;
+    details->type = type;
+    details->width = width;
 }
 
 
@@ -447,6 +449,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     size_t strSize;
     string firstchar;
     string secondchar;
+    string lastchar;
     size_t firstcharflag;
     size_t secondcharflag;
     char lowChar;
@@ -454,6 +457,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
     Token *previous_token = nullptr;
+    lastchar = tokenIs.substr(strSize-1,1);
 
     for (int ii=0; ii<strSize; ++ii)
     {
@@ -485,8 +489,29 @@ void TokenList::findAndSetTokenDetails(Token *token)
             if(secondchar == "\"")
             {
                 lowChar = tolower(int(firstchar[0]));
+                if(lowChar == 'b')
+                {
+                    bitWidthMultiplier = 1;
+                }
+                else if (lowChar == 'o')
+                {
+                    bitWidthMultiplier = 3;
+                }
+                else if (lowChar == 'x')
+                {
+                    bitWidthMultiplier = 4;
+                }
+
+                token->setTokenType(T_Literal)
 
             }
+    }
+    else if (firstchar = "\"")
+    {
+        if(lastchar = "\"")
+        {
+            bitWidthMultiplier = 1;
+        }
     }
     ///check if token is a comment body
     previous_token = token.getPrev();
