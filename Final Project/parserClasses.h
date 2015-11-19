@@ -64,6 +64,7 @@ public:
   //Copy constructor
   Token(const Token &token)
   {
+      stringRep = token.getStringRep()
       next = token.next;
       prev = token.prev;
       details = token.details;
@@ -78,7 +79,7 @@ public:
   }
 
   //Assignment operator
-  void operator =(const Token& token);
+  void operator =(const Token& token); /// define this overload operator?
 
 	//Returns the Token's *next member
 	Token* getNext ( ) const {  return next; }
