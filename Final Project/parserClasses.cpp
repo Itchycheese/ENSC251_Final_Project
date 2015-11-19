@@ -454,10 +454,12 @@ void TokenList::findAndSetTokenDetails(Token *token)
     size_t secondcharflag;
     char lowChar;
     int bitWidthMultiplier = 1;
+    int bitWidth = 0;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
 
     Token *previous_token = nullptr;
+<<<<<<< HEAD
     previous_token = token->getPrev();
     string previous_token_string = previous_token->getStringRep();
 
@@ -470,7 +472,16 @@ void TokenList::findAndSetTokenDetails(Token *token)
     string token_type_string = token_type->getSringRep();
 
     lastchar = tokenIs.substr(strSize-1,1);
+=======
+    lastchar = '\0';
+>>>>>>> origin/master
 
+    if(strSize != 1)
+    {
+        lastchar = tokenIs.substr(strSize-1,1);
+    }
+
+    /// Coverts the string tolower.
     for (int ii=0; ii<strSize; ++ii)
     {
         tokenIs[ii] = tolower(tokenIs[ii]);
@@ -494,13 +505,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
         token->setTokenType(T_Literal);
         token->setTokenDetails("integer",strSize);
     }
-    firstcharflag = firstchar.find_first_of("bBOoxX",0);
+    firstcharflag = firstchar.find_first_of("bBOoxX",0); //checks to see if it is one of them bit vectors.
     if(firstcharflag == 0)
     {
         secondchar = tokenIs.substr(1,1);
-            if(secondchar == "\"")
+            if(secondchar == "\"") // is second char a "?
             {
-                lowChar = tolower(int(firstchar[0]));
+                lowChar = tolower(int(firstchar[0])); //sets the proper multiplier for the width.
                 if(lowChar == 'b')
                 {
                     bitWidthMultiplier = 1;
@@ -514,17 +525,34 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     bitWidthMultiplier = 4;
                 }
 
-                token->setTokenType(T_Literal)
+                token->setTokenType(T_Literal);
+                bitWidth = ((strSize-2)*bitWidthMultiplier);
+                token->setTokenDetails("Literal", bitWidth);
 
             }
     }
-    else if (firstchar = "\"")
+    else if (firstchar.compare("\"") == 0) //sets the multipler for bit vectors with no b in front
     {
-        if(lastchar = "\"")
+        if(lastchar.compare("\"") == 0)
         {
             bitWidthMultiplier = 1;
+            token->setTokenType(T_Literal);
+            bitWidth = ((strSize-2)*bitWidthMultiplier);
+            token->setTokenDetails("Literal", bitWidth);
         }
     }
+    else if (firstchar.compare("'")==0) //sets the multipler for ' vectors.
+    {
+        if (lastchar.compare("'") == 0)
+        {
+            bitWidthMultiplier = 1;
+            token->setTokenType(T_Literal);
+            bitWidth = ((strSize-2)*bitWidthMultiplier);
+            token->setTokenDetails("Literal", bitWidth);
+        }
+    }
+
+
     ///check if token is a comment body
 
     if ( previous_token_string == "--") /// this token is a comment body
