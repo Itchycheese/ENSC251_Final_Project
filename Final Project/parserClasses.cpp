@@ -454,6 +454,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     size_t secondcharflag;
     char lowChar;
     int bitWidthMultiplier = 1;
+    int bitWidth = 0;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
     Token *previous_token = nullptr;
@@ -502,15 +503,20 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     bitWidthMultiplier = 4;
                 }
 
-                token->setTokenType(T_Literal)
+                token->setTokenType(T_Literal);
+                bitWidth = ((strSize-2)*bitWidthMultiplier);
+                token->setTokenDetails("Literal", bitWidth);
 
             }
     }
-    else if (firstchar = "\"")
+    else if (firstchar.compare("\"") == 0)
     {
-        if(lastchar = "\"")
+        if(lastchar.compare("\"") == 0)
         {
             bitWidthMultiplier = 1;
+            token->setTokenType(T_Literal);
+            bitWidth = ((strSize-2)*bitWidthMultiplier);
+            token->setTokenDetails("Literal", bitWidth);
         }
     }
     ///check if token is a comment body
