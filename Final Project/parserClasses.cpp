@@ -6,7 +6,8 @@ ENSC 251 Final Pro
 
 #include "parserClasses.h"
 #include <string>
-#include <locale>
+#include <clocale>
+#include <cctype>
 /// debug code
 //#include <iostream>
 
@@ -442,7 +443,6 @@ int removeComments(TokenList &tokenList)
 
 void TokenList::findAndSetTokenDetails(Token *token)
 {
-    std::locale loc;
     string tokenIs;
     size_t strSize;
     string firstchar;
@@ -450,14 +450,14 @@ void TokenList::findAndSetTokenDetails(Token *token)
     size_t firstcharflag;
     size_t secondcharflag;
     char lowChar;
-    int = bitWidthMultiplier = 1;
-    tokenIs = token.getStringRep();
+    int bitWidthMultiplier = 1;
+    tokenIs = token->getStringRep();
     strSize = tokenIs.size();
     Token *previous_token = nullptr;
 
     for (int ii=0; ii<strSize; ++ii)
     {
-        tokenIs[ii] = tolower(tokenIs[ii],loc);
+        tokenIs[ii] = tolower(tokenIs[ii]);
     }
 
     /// Checks to see if the token is a keyword.
@@ -484,7 +484,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
         secondchar = tokenIs.substr(1,1);
             if(secondchar == "\"")
             {
-                lowChar = tolower(firstchar);
+                lowChar = tolower(int(firstchar[0]));
 
             }
     }

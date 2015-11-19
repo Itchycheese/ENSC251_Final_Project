@@ -64,7 +64,7 @@ public:
   //Copy constructor
   Token(const Token &token)
   {
-      stringRep = token.getStringRep()
+      stringRep = token.getStringRep();
       next = token.next;
       prev = token.prev;
       details = token.details;
