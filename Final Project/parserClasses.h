@@ -62,15 +62,15 @@ public:
 	Token(const string &stringRep) : next(nullptr), prev(nullptr), stringRep(stringRep), details(nullptr), type(T_Other) { }
 
   //Copy constructor
-  Token(const Token &token)
-  {
+  Token(Token &token)
+    {
       stringRep = token.getStringRep();
       next = token.next;
       prev = token.prev;
       details = token.details;
       _isKeyword = token._isKeyword;
       type = token.type;
-  }
+    }
 
   //Destructor, free any memory owned by this object
   ~Token()

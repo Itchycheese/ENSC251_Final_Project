@@ -365,11 +365,12 @@ void Token::setTokenDetails(const string &type, int width)
     details->width = width;
 }
 
+
+
 TokenList* findAllConditionalExpressions(const TokenList &inList)
 {
-    Token *current;
+    Token *current = inList.getFirst();;
     bool insideConditional = false;
-    current = inList.getFirst();
     TokenList *returnedList = new TokenList();
 
     while(current->getNext() != nullptr)
@@ -382,16 +383,22 @@ TokenList* findAllConditionalExpressions(const TokenList &inList)
 
         if(insideConditional)
         {
-            Token* copyOfToken = new Token();
-            copyOfToken->stringRep = current->getStringRep();
+            Token* copyOfToken = new Token(current); // for some reason copy constructor to Token(Token*) cannot call.
+            /*tokenDetails* theDetails;
+
+            copyOfToken->setStringRep(current->getStringRep());
             copyOfToken->setNext(current->getNext());
-            copyOfToken->setPrev(current->setPrev());
-            copyOfToken->setTokenDetails();
+            copyOfToken->setPrev(current->setPrev()); //Cant call this idk why. setNext() is fine though.
+
+            theDetails = current->getTokenDetails();
+            copyOfToken->setTokenDetails(theDetails->type, theDetails->width);
             if(current->isKeyword())
             {
                 copyOfToken->setKeyword();
             }
-            copyOfToken->setTokenType(current->getTokenType());
+            copyOfToken->setTokenType(current->getTokenType()); */
+
+
             returnedList->append(copyOfToken);
         }
         else if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when")
