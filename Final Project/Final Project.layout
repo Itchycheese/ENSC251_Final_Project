@@ -2,15 +2,10 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="parserClasses.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="parserClasses.cpp" open="1" top="1" tabpos="2" split="1" active="1" splitpos="549" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2844" topLine="47" />
-		</Cursor>
-	</File>
-	<File name="parserClasses.cpp" open="1" top="1" tabpos="2" split="1" active="1" splitpos="518" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="11980" topLine="386" />
-			<Cursor2 position="870" topLine="18" />
+			<Cursor1 position="15891" topLine="489" />
+			<Cursor2 position="698" topLine="11" />
 		</Cursor>
 	</File>
 	<File name="project.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -18,5 +13,10 @@
 			<Cursor1 position="935" topLine="1" />
 		</Cursor>
 	</File>
-	<EditorTabsLayout layout="0a69a088564d133c00001a4000000002=+0;Final Project:parserClasses.h|0a699350564d133c00001a4200000003=*1;Final Project:parserClasses.cpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=180;besth=180;minw=180;minh=180;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a69a088564d133c00001a4000000002;caption=;state=2098172;dir=5;layer=1;row=0;pos=0;prop=100000;bestw=808;besth=373;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a699350564d133c00001a4200000003;caption=;state=2098172;dir=4;layer=3;row=0;pos=0;prop=100000;bestw=180;besth=180;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,1,0)=810|dock_size(4,3,0)=926|" />
+	<File name="parserClasses.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2829" topLine="14" />
+		</Cursor>
+	</File>
+	<EditorTabsLayout layout="0a703ba0564d3cfb00001acf00000002=+0;Final Project:parserClasses.h|0a7032d0564d3cfb00001ad100000003=*1;Final Project:parserClasses.cpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=180;besth=180;minw=180;minh=180;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a703ba0564d3cfb00001acf00000002;caption=;state=2098172;dir=5;layer=1;row=0;pos=0;prop=100000;bestw=808;besth=373;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0a7032d0564d3cfb00001ad100000003;caption=;state=2098172;dir=4;layer=3;row=0;pos=0;prop=100000;bestw=180;besth=180;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,1,0)=810|dock_size(4,3,0)=1515|" />
 </CodeBlocks_layout_file>
