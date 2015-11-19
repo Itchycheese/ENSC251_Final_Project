@@ -456,7 +456,19 @@ void TokenList::findAndSetTokenDetails(Token *token)
     int bitWidthMultiplier = 1;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
+
     Token *previous_token = nullptr;
+    previous_token = token->getPrev();
+    string previous_token_string = previous_token->getStringRep();
+
+    Token *next_token = nullptr;
+    next_token = token->getNext();
+    string next_token_string = next_token->getSringRep;
+
+    Token *token_type = nullptr;
+    token_type = next_token->getNext();
+    string token_type_string = token_type->getSringRep();
+
     lastchar = tokenIs.substr(strSize-1,1);
 
     for (int ii=0; ii<strSize; ++ii)
@@ -514,8 +526,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
         }
     }
     ///check if token is a comment body
-    previous_token = token.getPrev();
-    if ( previous_token == "--") /// this token is a comment body
+
+    if ( previous_token_string == "--") /// this token is a comment body
     {
         token->setTokenType(T_CommentBody);
         token->setTokenDetails("comment",0);
@@ -528,7 +540,39 @@ void TokenList::findAndSetTokenDetails(Token *token)
             if (strSize == 1)
             {
                 token->setTokenType(T_Identifier);
-                token->setTokenDetails("identifier",0);
+                //check before and after if it a signal/variable define line ?
+                for (int ii =0; ii < 97; ii++)
+                    if (previous_token_string == keyWordList[ii] && next_token_string ==":")
+                    {
+                        Token *bracket_check = nullptr;
+                        bracket_check = token_type->getNext();
+                        string bracket_check_str = token_type->getNext(); // to check if next token is a bracket
+                        if (bracket_check_str == "(" )
+                        {
+                            //check if inside the bracket there is a to/downto
+                            Token *first_number = bracket_check->getNext();
+                            Token *vector_check = first_number ->getNext();
+                            string vector_check_str = vector_check->getStringRep();
+                            if (vector_check_str == "to" || vector_check_str == "downto")
+                            {
+                                 //this is a vector, we need to set detail of type and width of the vector
+
+                                 string first_number_str = first_number->getStringRep();
+                                 Token *second_number = vector_check->getNext();
+                                 string second_number_str = second_number->getStringRep();
+                                 int width_token = abs( atoi(second_number_str) - atoi(first_number_str) ) +1;
+                                 token->getTokenDetails(token_type_string, width_token);
+                                 ///need to consider about default value if needed
+                            }
+                            else
+                            {
+                                token->setTokenDetails(token_type_string, 0);
+                            }
+                        }
+
+
+                    }
+
             }
             else if (secondchar != "\"" )
             {
@@ -538,7 +582,38 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     if (tokenIs != operatorList[ii])
                     {
                         token->setTokenType(T_Identifier);
-                        token->setTokenDetails("identifier",0);
+
+                        for (int ii =0; ii < 97; ii++)
+                        if (previous_token_string == keyWordList[ii] && next_token_string ==":")
+                        {
+                            Token *bracket_check = nullptr;
+                            bracket_check = token_type->getNext();
+                            string bracket_check_str = token_type->getNext(); // to check if next token is a bracket
+                            if (bracket_check_str == "(" )
+                            {
+                                //check if inside the bracket there is a to/downto
+                                Token *first_number = bracket_check->getNext();
+                                Token *vector_check = first_number ->getNext();
+                                string vector_check_str = vector_check->getStringRep();
+                                if (vector_check_str == "to" || vector_check_str == "downto")
+                                {
+                                     //this is a vector, we need to set detail of type and width of the vector
+
+                                     string first_number_str = first_number->getStringRep();
+                                     Token *second_number = vector_check->getNext();
+                                     string second_number_str = second_number->getStringRep();
+                                     int width_token = abs( atoi(second_number_str) - atoi(first_number_str) ) +1;
+                                     token->getTokenDetails(token_type_string, width_token);
+                                     ///need to consider about default value if needed
+                                }
+                                else
+                                {
+                                    token->setTokenDetails(token_type_string, 0);
+                                }
+                            }
+
+
+                        }
                         break;
                     }
                 }
@@ -554,7 +629,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                         break;
                     }
                 }
-    /// it will type Other if it not any other type
+    /// it will type Other if it not any other type - which is the default type in the default constructor
 
 
 
