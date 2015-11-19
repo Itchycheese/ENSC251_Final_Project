@@ -451,8 +451,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
     size_t secondcharflag;
     char lowChar;
     int = bitWidthMultiplier = 1;
-    tokenIs = token->getStringRep();
+    tokenIs = token.getStringRep();
     strSize = tokenIs.size();
+    Token *previous_token = nullptr;
+
     for (int ii=0; ii<strSize; ++ii)
     {
         tokenIs[ii] = tolower(tokenIs[ii],loc);
@@ -486,7 +488,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
             }
     }
+    ///check if token is a comment body
+    previous_token = token.getPrev();
+    if ( previous_token == "--") /// this token is a comment body
+    {
 
+
+    }
 
 
 
