@@ -506,17 +506,6 @@ void TokenList::findAndSetTokenDetails(Token *token)
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
 
-    Token *previous_token = nullptr;
-    previous_token = token->getPrev();
-    string previous_token_string = previous_token->getStringRep();
-
-    Token *next_token = nullptr;
-    next_token = token->getNext();
-    string next_token_string = next_token->getStringRep();
-
-    Token *token_type = nullptr;
-    token_type = next_token->getNext();
-    string token_type_string = token_type->getStringRep();
 
     lastchar = tokenIs.substr(strSize-1,1);
     lastchar = '\0';
@@ -599,6 +588,9 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
 
     ///check if token is a comment body
+    Token *previous_token = nullptr;
+    previous_token = token->getPrev();
+    string previous_token_string = previous_token->getStringRep();
 
     if ( previous_token_string == "--") /// this token is a comment body
     {
@@ -610,10 +602,21 @@ void TokenList::findAndSetTokenDetails(Token *token)
     if(firstcharflag == 0)
     {
         secondchar = tokenIs.substr(1,1);
-            if (strSize == 1)
+            if (strSize == 1) ///case identifier is only 1 char
             {
                 token->setTokenType(T_Identifier);
                 //check before and after if it a signal/variable define line ?
+
+                //get the value of the previous and next token to find the type of identifier
+
+
+                Token *next_token = nullptr;
+                next_token = token->getNext();
+                string next_token_string = next_token->getStringRep();
+
+                Token *token_type = nullptr;
+                token_type = next_token->getNext();
+                string token_type_string = token_type->getStringRep();
                 for (int ii =0; ii < 97; ii++)
                     if (previous_token_string == keyWordList[ii] && next_token_string ==":")
                     {
@@ -640,18 +643,31 @@ void TokenList::findAndSetTokenDetails(Token *token)
                                  token->setTokenDetails(token_type_string, width_token);
                                  ///need to consider about default value if needed
                             }
-                            else
+                            else //bracket but not a vector type ? set width = 0
                             {
                                 token->setTokenDetails(token_type_string, 0);
                             }
                         }
+                        else //if there is not a bracket the width of vector will be 0
+                            {
+                                token->setTokenDetails(token_type_string, 0);
+                            }
 
-
+                        break; // previous match one of the key word list, no more same match, break the loops
                     }
 
             }
-            else if (secondchar != "\"" )
+            else if (secondchar != "\"" ) /// case identifier contain more than or =2 char
             {
+
+
+                Token *next_token = nullptr;
+                next_token = token->getNext();
+                string next_token_string = next_token->getStringRep();
+
+                Token *token_type = nullptr;
+                token_type = next_token->getNext();
+                string token_type_string = token_type->getStringRep();
 
                 for(int ii=0; ii < 28; ii++)
                 {
@@ -687,10 +703,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
                                     token->setTokenDetails(token_type_string, 0);
                                 }
                             }
+                            else //case there is no bracket, vector width = 0
+                                {
+                                    token->setTokenDetails(token_type_string, 0);
+                                }
 
 
                         }
-                        break;
                     }
                 }
             }
