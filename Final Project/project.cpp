@@ -44,9 +44,18 @@ int main() {
 	Token *t = tokens.getFirst();
 	while(t)
 	{
-        detailtoken = *(t->getTokenDetails());
-		cout << t->getStringRep() << " " << t->getTokenType() <<" " << detailtoken.type << " " << detailtoken.width <<endl;
+        if(t->getTokenType() == 1 || t->getTokenType() == 2)
+        {
+           detailtoken = *(t->getTokenDetails());
+           cout << t->getStringRep() << " " << t->getTokenType() <<" " << detailtoken.type << " " << detailtoken.width <<endl;
+            t = t->getNext();
+        }
+        else
+        {
+            cout << t->getStringRep() << " " << t->getTokenType() <<endl;
 		t = t->getNext();
+        }
+
 	}
 
   /* For your testing purposes only */
