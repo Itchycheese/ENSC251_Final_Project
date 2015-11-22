@@ -35,7 +35,6 @@ void TokenList::append(const string &str) {
 //On return from the function, it will be the last token in the list
 void TokenList::append(Token *token) {
 
-	findAndSetTokenDetails(token);
 	if (!head) {
 		head = token;
 		tail = token;
@@ -45,6 +44,7 @@ void TokenList::append(Token *token) {
 		token->setPrev(tail);
 		tail = token;
 	}
+	findAndSetTokenDetails(token);
 }
 
 
@@ -560,7 +560,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 }
 
                 token->setTokenType(T_Literal);
-                bitWidth = ((strSize-2)*bitWidthMultiplier);
+                bitWidth = ((strSize-3)*bitWidthMultiplier);
                 token->setTokenDetails("Literal", bitWidth);
 
             }
