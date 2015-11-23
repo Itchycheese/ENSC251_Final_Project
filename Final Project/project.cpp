@@ -47,12 +47,12 @@ int main() {
         if(t->getTokenType() == 1 || t->getTokenType() == 2)
         {
            detailtoken = *(t->getTokenDetails());
-           cout << t->getStringRep() << " " << t->getTokenType() <<" " << detailtoken.type << " " << detailtoken.width <<endl;
+           cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<" Token Detail: " << detailtoken.type << " Token Width: " << detailtoken.width <<endl;
             t = t->getNext();
         }
         else
         {
-            cout << t->getStringRep() << " " << t->getTokenType() <<endl;
+            cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<endl;
 		t = t->getNext();
         }
 

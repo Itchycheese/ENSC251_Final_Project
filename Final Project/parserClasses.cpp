@@ -360,7 +360,10 @@ string Tokenizer::getNextToken()
 
 void Token::setTokenDetails(const string &type, int width)
 {
-    details = new tokenDetails;
+    if(details == nullptr)
+    {
+        details = new tokenDetails;
+    }
     details->type = type;
     details->width = width;
 }
