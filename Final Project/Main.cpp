@@ -1,6 +1,7 @@
 #include "parserClasses.h"
 #include <iostream>
 #include <fstream>
+#inlcude <vector>
 
 using namespace std;
 
@@ -17,8 +18,10 @@ int programMain() {
 
 	Tokenizer tokenizer;
 
+
 	bool verboseModeFlag = false;
 	string userInput;
+	char parsedUserInput;
 
 
 	//Read in a file line-by-line and tokenize each line
@@ -46,7 +49,12 @@ int programMain() {
 	cout << "Enter Verbose Mode? Type \"1\" for Yes, Other inputs will be a No. : ";
 	cin >> userInput;
 
-	if (userInput == 1)
+    parsedUserInput = userInput[0];
+
+	if (parsedUserInput == '1')
+    {
+        verboseModeFlag = true;
+    }
 
   /* For your testing purposes only */
     ///test remove token type
