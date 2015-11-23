@@ -505,6 +505,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
     int bitWidth = 0;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
+    bool flagForIdentifier = false;
+    bool flagVector = false;
+    bool flagTokenType = false;
+
 
 
     lastchar = tokenIs.substr(strSize-1,1);
@@ -601,7 +605,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     }
 
     ///check to see if a token is a identifier
-    firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
+    /*firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
     if(firstcharflag == 0)
     {
         secondchar = tokenIs.substr(1,1);
@@ -674,8 +678,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
                     }
                 }
-                else if (secondchar != "\"" ) /// case identifier contain more than or =2 char
-                    {
+            else if (secondchar != "\"" ) /// case identifier contain more than or =2 char
+            {
 
 
                         if ((token->getNext() != nullptr) && (token->getPrev() != nullptr))
@@ -743,7 +747,80 @@ void TokenList::findAndSetTokenDetails(Token *token)
                             }
                         }
                     }
+                }*/
+    firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
+    if (firstcharflag == 0)
+    {
+        if (strSize == 1) //case only 1 char
+        {
+            token->setTokenType(T_Identifier);
+            flagForIdentifier = true;
+        }
+        else // case more than 1 char
+        {
+            secondchar = tokenIS.substr(1,1);
+            secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0)
+            if (secondcharflag == 0)
+            {
+                token->setTokenType(T_Identifier);
+                flagForIdentifier = true;
+            }
+        }
+        if ( flagForIdentifier == true)
+        {
+            if ((token->getNext()!= nullptr) && (token->getPrev()!= nullptr))
+            {
+                Token *next_token = token->getNext();
+                if (next_token->getNext()!= nullptr)
+                {
+                    Token *type_token = next_token->getNext();
+                    if (type_token->getNext()!= nullptr)
+                    {
+                        // have a open bracket -> must be a vector
+                        //if not a bracket -> just a signal
+                        Token *bracketcheck = type_token->getNext();
+
+                        if ((bracketcheck->getStringRep()=="(") ||(bracketcheck->getStringRep() == "["))
+                        {
+                            flagVector = true;
+                        }
+                        else
+                        {
+                            flagTokenType = true;
+                        }
+                    }
+                    if (type_token ->getNext() == nullptr)
+                    {
+                        flagTokenType = true;
+                    }
                 }
+            }
+        }
+        //after check the condition if a identifier is a vector or signal
+        //we set the detail for identifier
+        if (flagVector == true)
+        {
+            Token *previous_token = token->getPrev();
+            string previous_token_string = previous_token->getStringRep();
+            Token *next_token = token->getNext();
+            string next_token_string = next_token->getStringRep();
+            Token *token_type = next_token->getNext();
+            string token_type_string = token_type->getStringRep();
+            token *bracket = token_type ->getNext();
+            token *firstnum = bracket->getNext();
+            string firstnumchar = firstnum
+        }
+        else if (flagForIdentifier == true && flagTokenType == true)
+        {
+
+            token->setTokenDetails()
+        }
+        else
+        {
+            token ->setTokenDetails(tokenIs, 0)
+
+        }
+    }
     ///check to see if token is an operator
             for(int ii=0; ii < 28; ii++)
                 {

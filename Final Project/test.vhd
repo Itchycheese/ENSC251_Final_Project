@@ -15,6 +15,7 @@ end random;
 
 architecture Behavioral of random is
 begin
+signal a: std_logic;
 process(clk)
 variable rand_temp : std_logic_vector(width-1 downto 0):=(width-1 => '1',others => '0');
 variable temp : std_logic := '0';
