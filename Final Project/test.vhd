@@ -9,13 +9,14 @@ entity random is
     generic ( width : integer :=  32 ); --just more comment
 port (
       clk : in std_logic;
+	CLock1234567: in std_logic_vector (5 downto 0);
       random_num : out std_logic_vector (width-1 downto 0)   --output vector            
     );
 end random;
 
 architecture Behavioral of random is
 begin
-signal a: std_logic;
+signal a: std_logic_vector (4 downto 3);
 process(clk)
 variable rand_temp : std_logic_vector(width-1 downto 0):=(width-1 => '1',others => '0');
 variable temp : std_logic := '0';

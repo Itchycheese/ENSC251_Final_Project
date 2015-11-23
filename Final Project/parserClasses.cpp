@@ -44,7 +44,7 @@ void TokenList::append(Token *token) {
 		token->setPrev(tail);
 		tail = token;
 	}
-	findAndSetTokenDetails(token);
+	//c;
 }
 
 
@@ -754,7 +754,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
     if (firstcharflag == 0)
     {
-        if (strSize == 1) //case only 1 char
+        if (strSize == 1 && token->getTokenType() == T_Other) //case only 1 char
         {
             token->setTokenType(T_Identifier);
             flagForIdentifier = true;
@@ -763,7 +763,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
         {
             secondchar =tokenIs.substr(1,1);
             secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0);
-            if (secondcharflag == 0)
+            if (secondcharflag == 0 && token->getTokenType()==T_Other)
             {
                 token->setTokenType(T_Identifier);
                 flagForIdentifier = true;
@@ -783,17 +783,17 @@ void TokenList::findAndSetTokenDetails(Token *token)
                         //if not a bracket -> just a signal
                         Token *bracketcheck = type_token->getNext();
 
-                        if ((bracketcheck->getStringRep()=="(") ||(bracketcheck->getStringRep() == "["))
+                        if (((bracketcheck->getStringRep()=="(") ||(bracketcheck->getStringRep() == "[")) && next_token->getStringRep() == ":")
                         {
                             flagVector = true;
                         }
-                        else
+                        else if (next_token->getStringRep() == ":")
                         {
                             flagTokenType = true;
                         }
                         // case the entity declare a vector
                         Token *bracketOfEntity = bracketcheck->getNext();
-                        if (bracketOfEntity->getStringRep() == "(")
+                        if (bracketOfEntity->getStringRep() == "(" && next_token->getStringRep() == ":")
                         {
                             flagTokenType = false;
                             flagVector =true;

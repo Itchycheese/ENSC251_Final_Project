@@ -44,6 +44,7 @@ int main() {
 	Token *t = tokens.getFirst();
 	while(t)
 	{
+	    tokens.findAndSetTokenDetails(t); ///test findAndSetTokenDetails
         if(t->getTokenType() == 1 || t->getTokenType() == 2)
         {
            detailtoken = *(t->getTokenDetails());
