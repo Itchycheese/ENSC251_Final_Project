@@ -791,6 +791,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
                         {
                             flagTokenType = true;
                         }
+                        // case the entity declare a vector
+                        Token *bracketOfEntity = bracketcheck->getNext();
+                        if (bracketOfEntity->getStringRep() == "(")
+                        {
+                            flagTokenType = false;
+                            flagVector =true;
+                        }
                     }
                     if (type_token ->getNext() == nullptr)
                     {
@@ -810,17 +817,25 @@ void TokenList::findAndSetTokenDetails(Token *token)
             Token *token_type = next_token->getNext();
             string token_type_string = token_type->getStringRep();
             Token *bracket = token_type ->getNext();
+            string bracketchar = bracket->getStringRep();
             Token *firstnum = bracket->getNext();
             string firstnumchar = firstnum->getStringRep();
             Token *vectorcheck = firstnum->getNext();
             string vectorcheckchar = vectorcheck->getStringRep();
             Token *secondnum = vectorcheck->getNext();
             string secondnumchar = secondnum->getStringRep();
+            Token *secondnumentity = secondnum->getNext();
+            string secondnumentitychar = secondnumentity->getStringRep();
             if ((vectorcheckchar == "to") || (vectorcheckchar == "downto"))
             {
                 //this is a vector
                 int width = abs( stoi(firstnumchar) - stoi(secondnumchar)) + 1;
                 token->setTokenDetails(token_type_string, width);
+            }
+            else if ( ((secondnumchar) =="to") || ((secondnumchar) =="downto") )
+            {
+                int width = abs( stoi(vectorcheckchar) - stoi(secondnumentitychar)) + 1;
+                token->setTokenDetails(bracketchar, width);
             }
             else
             {
@@ -836,11 +851,22 @@ void TokenList::findAndSetTokenDetails(Token *token)
             Token *token_type = next_token->getNext();
             string token_type_string = token_type->getStringRep();
 
+            //test
+            if (token_type_string == "in" || token_type_string=="out" || token_type_string=="inout" || token_type_string =="buffer")
+            {
+                Token *token_entity = token_type->getNext();
+                string token_entity_string = token_entity ->getStringRep();
+                token->setTokenDetails(token_entity_string,0);
+            }
+            else
+            {
             token->setTokenDetails(token_type_string,0);
+            }
         }
         else
         {
-            token ->setTokenDetails(tokenIs, 0);
+
+            token ->setTokenDetails("unknow" , 0);
 
         }
     }
