@@ -758,8 +758,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
         }
         else // case more than 1 char
         {
-            secondchar = tokenIS.substr(1,1);
-            secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0)
+            secondchar =tokenIs.substr(1,1);
+            secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0);
             if (secondcharflag == 0)
             {
                 token->setTokenType(T_Identifier);
@@ -806,18 +806,38 @@ void TokenList::findAndSetTokenDetails(Token *token)
             string next_token_string = next_token->getStringRep();
             Token *token_type = next_token->getNext();
             string token_type_string = token_type->getStringRep();
-            token *bracket = token_type ->getNext();
-            token *firstnum = bracket->getNext();
-            string firstnumchar = firstnum
+            Token *bracket = token_type ->getNext();
+            Token *firstnum = bracket->getNext();
+            string firstnumchar = firstnum->getStringRep();
+            Token *vectorcheck = firstnum->getNext();
+            string vectorcheckchar = vectorcheck->getStringRep();
+            Token *secondnum = vectorcheck->getNext();
+            string secondnumchar = secondnum->getStringRep();
+            if ((vectorcheckchar == "to") || (vectorcheckchar == "downto"))
+            {
+                //this is a vector
+                int width = abs( stoi(firstnumchar) - stoi(secondnumchar)) + 1;
+                token->setTokenDetails(token_type_string, width);
+            }
+            else
+            {
+                token->setTokenDetails(token_type_string,0);
+            }
         }
         else if (flagForIdentifier == true && flagTokenType == true)
         {
+            Token *previous_token = token->getPrev();
+            string previous_token_string = previous_token->getStringRep();
+            Token *next_token = token->getNext();
+            string next_token_string = next_token->getStringRep();
+            Token *token_type = next_token->getNext();
+            string token_type_string = token_type->getStringRep();
 
-            token->setTokenDetails()
+            token->setTokenDetails(token_type_string,0);
         }
         else
         {
-            token ->setTokenDetails(tokenIs, 0)
+            token ->setTokenDetails(tokenIs, 0);
 
         }
     }
@@ -834,7 +854,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     /// it will type Other if it not any other type - which is the default type in the default constructor
 
     }
-}
+
 
 int removeTokensOfType(TokenList &tokenList, tokenType type)
 {
