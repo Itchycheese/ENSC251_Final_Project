@@ -67,7 +67,16 @@ public:
       stringRep = token.getStringRep();
       next = token.next;
       prev = token.prev;
-      details = token.details;
+      if(token.details != NULL)
+      {
+          details = new tokenDetails;
+          details->type = token.details->type;
+          details->width = token.details->width;
+      }
+      else
+      {
+          details = NULL;
+      }
       _isKeyword = token._isKeyword;
       type = token.type;
     }

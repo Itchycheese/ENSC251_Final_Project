@@ -1,7 +1,7 @@
 #include "parserClasses.h"
 #include <iostream>
 #include <fstream>
-#inlcude <vector>
+#include <vector>
 
 using namespace std;
 
