@@ -23,6 +23,20 @@ int programMain() {
 	string userInput;
 	char parsedUserInput;
 
+	vector<string> errorLines;
+	string errorMissingEndIf = "Missing \"End If\" here: ";
+	string errorMissingThen = "Missing \"Then\" here: ";
+	string errorMissingIf = "Extra \"End If\" Here: ";
+	string errorMissingWhen = "Extra \"When\" Here";
+	string errorTypeMismatch = "Type Mismatch of types : ";
+	string errorWidthMismatch = "Width Mismatch of Width: ";
+	int numberOfTokens =0;
+	int numberOfCondExp =0;
+	int numberOfMissingEndIfs = 0;
+	int numberOfMissingIfs =0;
+	int ifEndifBalance =0; //if there is a positive number there are too many ifs, negative number too many endifs.
+	int whenThenBalance =0; //Like above except with When, Thens.
+
 
 	//Read in a file line-by-line and tokenize each line
 
@@ -55,6 +69,161 @@ int programMain() {
     {
         verboseModeFlag = true;
     }
+
+    //This part counts the number of tokens.
+    Token *t = tokens.getFirst();
+	while(t)
+	{
+	    numberOfTokens++;
+		t = t->getNext();
+	}
+
+	//This part counts the number of conditional expressions.
+	TokenList *conditionalTokenList = findAllConditionalExpressions(tokens);
+	Token *condtokens = conditionalTokenList->getFirst();
+    while(condtokens)
+	{
+	    if(condtokens->getStringRep() == "\\n")
+        {
+            numberOfCondExp++;
+        }
+		condtokens = condtokens->getNext();
+	}
+
+	//This part counts the number of ifs, end ifs.
+	t = tokens.getFirst();
+	Token *tError = tokens.getFirst();
+	string errorCodeLine[7] = {" ", " ", " ", " ", " ", " ", " "};
+	while(t)
+	{
+	    if(t->getStringRep() == "if")
+        {
+            ifEndifBalance++;
+            if(ifEndifBalance>0)
+            {
+                { // this part gets the tokens around the error.
+                errorCodeLine[3] = t->getStringRep();
+                if(t->getPrev()!=nullptr)
+                {
+                    tError = t->getPrev();
+                    errorCodeLine[2] = tError->getStringRep();
+                }
+                if(tError->getPrev()!=nullptr)
+                {
+                    tError = tError->getPrev();
+                    errorCodeLine[1] = tError->getStringRep();
+                }
+                if(tError->getPrev()!=nullptr)
+                {
+                    tError = tError->getPrev();
+                    errorCodeLine[0] = tError->getStringRep();
+                }
+                if(t->getNext()!=nullptr)
+                {
+                    tError = t->getNext();
+                    errorCodeLine[4] = tError->getStringRep();
+                }
+                if(tError->getNext()!=nullptr)
+                {
+                    tError = tError->getNext();
+                    errorCodeLine[5] = tError->getStringRep();
+                }
+                if(tError->getNext()!=nullptr)
+                {
+                    tError = tError->getNext();
+                    errorCodeLine[6] = tError->getStringRep();
+                }
+                }
+                errorLines.push_back(errorMissingEndIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                for(int ii=0; ii <7;ii++)
+                {
+                    errorCodeLine[ii] = " ";
+                }
+            }
+            else if(ifEndifBalance<=0)
+            {
+                errorLines.pop_back();
+            }
+        }
+        else if (t->getStringRep() == "end")
+        {
+            if(t->getNext()!= nullptr)
+            {
+                tError = t->getNext();
+                if(tError ->getStringRep() == "if")
+                {
+                    ifEndifBalance--;
+                    if(ifEndifBalance<0)
+                    {
+                        { // This part gets the tokens around the error
+                        errorCodeLine[3] = t->getStringRep();
+                        if(t->getPrev()!=nullptr)
+                        {
+                            tError = t->getPrev();
+                            errorCodeLine[2] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[1] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[0] = tError->getStringRep();
+                        }
+                        if(t->getNext()!=nullptr)
+                        {
+                            tError = t->getNext();
+                            errorCodeLine[4] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[5] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[6] = tError->getStringRep();
+                        }
+                        }
+                        errorLines.push_back(errorMissingIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                        for(int ii=0; ii <7;ii++)
+                        {
+                            errorCodeLine[ii] = " ";
+                        }
+                    }
+                    else if (ifEndifBalance>=0)
+                    {
+                        errorLines.pop_back();
+                    }
+                }
+            }
+        }
+		t = t->getNext();
+	}
+
+	if (ifEndifBalance == 0)
+    {
+        numberOfMissingEndIfs =0;
+        numberOfMissingIfs = 0;
+    }
+    else if (ifEndifBalance > 0)
+    {
+        numberOfMissingEndIfs = ifEndifBalance;
+        numberOfMissingIfs = 0;
+    }
+    else if (ifEndifBalance <0)
+    {
+        numberOfMissingEndIfs =0;
+        numberOfMissingIfs = abs(ifEndifBalance);
+    }
+	cout << "Number of Tokens                  : " << numberOfTokens <<endl;
+	cout << "Number of Conditional Expressions : " << numberOfCondExp <<endl;
+	cout << "Number of Missing \"end if\"s     : " << numberOfMissingEndIfs << endl;
+	cout << "Number of Missing \"if\"s         : " << numberOfMissingIfs << endl;
+
 
   /* For your testing purposes only */
     ///test remove token type
