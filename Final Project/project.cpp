@@ -7,7 +7,7 @@ using namespace std;
 
 //Example Test code for interacting with your Token, TokenList, and Tokenizer classes
 //Add your own code to further test the operation of your Token, TokenList, and Tokenizer classes
-int notmain() {
+int xmain() {
 	ifstream sourceFile;
 	TokenList tokens;
 
@@ -21,7 +21,7 @@ int notmain() {
 	Tokenizer tokenizer;
 
 	//Read in a file line-by-line and tokenize each line
-	sourceFile.open("test.vhd");
+	sourceFile.open("andgate.vhd");
 	if (!sourceFile.is_open()) {
 		cout << "Failed to open file" << endl;
 		return 1;

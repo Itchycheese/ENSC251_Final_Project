@@ -10,7 +10,7 @@ entity random is
 port (
       clk : in std_logic;
 	CLock1234567: in std_logic_vector (5 downto 0);
-      random_num : out std_logic_vector (7 downto 0)   --output vector            
+      random_num : out std_logic_vector (7 downto 0)   --output vector
     );
 end random;
 

@@ -35,7 +35,7 @@ int main() {
 	int numberOfMissingIfs =0;
 	int numberofMissingThens =0;
 	int ifEndifBalance =0; //if there is a positive number there are too many ifs, negative number too many endifs.
-	int ifwhenBalance =0; //Like above except with When.
+	int ifthenBalance =0; //Like above except with Then.
 
 
 	//Read in a file line-by-line and tokenize each line
@@ -136,7 +136,7 @@ int main() {
                         errorCodeLine[6] = tError->getStringRep();
                     }
                     }
-                    errorLines.push_back(errorMissingEndIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                    errorLines.push_back(errorMissingEndIf+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                     for(int ii=0; ii <7;ii++)
                     {
                         errorCodeLine[ii] = " ";
@@ -191,7 +191,7 @@ int main() {
                             errorCodeLine[6] = tError->getStringRep();
                         }
                         }
-                        errorLines.push_back(errorMissingIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                        errorLines.push_back(errorMissingIf+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                         for(int ii=0; ii <7;ii++)
                         {
                             errorCodeLine[ii] = " ";
@@ -216,8 +216,8 @@ int main() {
         {
             if(t->getPrev()->getStringRep() != "end")
             {
-                ifwhenBalance++;
-                if(ifwhenBalance>0)
+                ifthenBalance++;
+                if(ifthenBalance>0)
                 {
                     { // this part gets the tokens around the error.
                     errorCodeLine[3] = t->getStringRep();
@@ -251,23 +251,24 @@ int main() {
                         tError = tError->getNext();
                         errorCodeLine[6] = tError->getStringRep();
                     }
+                    }
+                    errorLines.push_back(errorMissingThen+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                    for(int ii=0; ii <7;ii++)
+                    {
+                        errorCodeLine[ii] = " ";
+                    }
                 }
-                errorLines.push_back(errorMissingThen+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
-                for(int ii=0; ii <7;ii++)
+                else if(ifthenBalance<=0)
                 {
-                    errorCodeLine[ii] = " ";
+                    errorLines.pop_back();
                 }
             }
-            else if(ifEndifBalance<=0)
-            {
-                errorLines.pop_back();
-            }
-            }
+
         }
         else if (t->getStringRep() == "then")
         {
-            ifwhenBalance--;
-            if(ifEndifBalance<0)
+            ifthenBalance--;
+            if(ifthenBalance<0)
             {
                 { // This part gets the tokens around the error
                 errorCodeLine[3] = t->getStringRep();
@@ -302,13 +303,13 @@ int main() {
                     errorCodeLine[6] = tError->getStringRep();
                 }
                 }
-                errorLines.push_back(errorMissingThen+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                errorLines.push_back(errorMissingThen+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                 for(int ii=0; ii <7;ii++)
                 {
                     errorCodeLine[ii] = " ";
                 }
             }
-            else if (ifEndifBalance>=0)
+            else if (ifthenBalance>=0)
             {
                 errorLines.pop_back();
             }
@@ -322,28 +323,28 @@ int main() {
         numberOfMissingEndIfs =0;
         numberOfMissingIfs = 0;
     }
-    else if (ifEndifBalance < 0)
+    else if (ifEndifBalance > 0)
     {
         numberOfMissingEndIfs = abs(ifEndifBalance);
         numberOfMissingIfs = 0;
     }
-    else if (ifEndifBalance >0)
+    else if (ifEndifBalance <0)
     {
         numberOfMissingEndIfs =0;
         numberOfMissingIfs = abs(ifEndifBalance);
     }
 
-    if (ifwhenBalance == 0)
+    if (ifthenBalance == 0)
     {
         numberofMissingThens =0;
     }
-    else if (ifwhenBalance < 0)
+    else if (ifthenBalance > 0)
     {
-        numberofMissingThens = abs(ifwhenBalance);
+        numberofMissingThens = abs(ifthenBalance);
     }
-    else if (ifwhenBalance >0)
+    else if (ifthenBalance <0)
     {
-        numberOfMissingIfs = numberOfMissingIfs + abs(ifwhenBalance);
+        numberOfMissingIfs = numberOfMissingIfs + abs(ifthenBalance);
         numberofMissingThens =0;
     }
 
