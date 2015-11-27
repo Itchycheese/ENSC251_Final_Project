@@ -750,10 +750,15 @@ void TokenList::findAndSetTokenDetails(Token *token)
             }
             else
             {
-                if (token->getTokenDetails()==nullptr)
+
+                if ((( token_type_string=="in") || ( token_type_string=="out") |( token_type_string=="inout")||( token_type_string=="buffer")) &&(token->getTokenDetails() == nullptr))
                 {
-                    token->setTokenDetails(token_type_string, 0);
-                    SetAllDetail(token,token_type_string,0);
+                    token->setTokenDetails(bracketchar,1);
+                }
+                else if (token->getTokenDetails()==nullptr)
+                {
+                    token->setTokenDetails(token_type_string, 1);
+                    SetAllDetail(token,token_type_string,1);
                 }
             }
         }
@@ -773,16 +778,16 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 string token_entity_string = token_entity ->getStringRep();
                 if(token->getTokenDetails()==nullptr)
                 {
-                    token->setTokenDetails(token_entity_string,0);
-                    SetAllDetail(token,token_entity_string,0);
+                    token->setTokenDetails(token_entity_string,1);
+                    SetAllDetail(token,token_entity_string,1);
                 }
             }
             else
             {
                 if (token->getTokenDetails()== nullptr)
                 {
-                    token->setTokenDetails(token_type_string,0);
-                    SetAllDetail(token,token_type_string,0);
+                    token->setTokenDetails(token_type_string,1);
+                    SetAllDetail(token,token_type_string,1);
                 }
             }
         }
@@ -846,7 +851,7 @@ void TokenList::SetAllDetail (Token* token, string type, int width)
     Token *current = token->getNext();
     while (current != nullptr)
     {
-        if ((token->getTokenDetails() == nullptr) && ( current ->getStringRep() == token->getStringRep()))
+        if (current ->getStringRep() == token->getStringRep())
         {
             current->setTokenDetails(type,width);
             current = current->getNext();
