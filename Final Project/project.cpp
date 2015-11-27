@@ -7,7 +7,7 @@ using namespace std;
 
 //Example Test code for interacting with your Token, TokenList, and Tokenizer classes
 //Add your own code to further test the operation of your Token, TokenList, and Tokenizer classes
-int main() {
+int notmain() {
 	ifstream sourceFile;
 	TokenList tokens;
 
@@ -48,6 +48,27 @@ int main() {
         if(t->getTokenType() == 1 || t->getTokenType() == 2)
         {
            detailtoken = *(t->getTokenDetails());
+           //cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<" Token Detail: " << detailtoken.type << " Token Width: " << detailtoken.width <<endl;
+            t = t->getNext();
+        }
+        else
+        {
+            //cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<endl;
+		t = t->getNext();
+        }
+
+	}
+
+  /* For your testing purposes only */
+    ///test remove token type
+    ///removeTokensOfType(tokens, T_Operator);
+  /* Ensure that tokens have all type information set*/
+    t = tokens.getFirst();
+    while(t)
+	{
+        if(t->getTokenType() == 1 || t->getTokenType() == 2)
+        {
+           detailtoken = *(t->getTokenDetails());
            cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<" Token Detail: " << detailtoken.type << " Token Width: " << detailtoken.width <<endl;
             t = t->getNext();
         }
@@ -58,12 +79,6 @@ int main() {
         }
 
 	}
-
-  /* For your testing purposes only */
-    ///test remove token type
-    ///removeTokensOfType(tokens, T_Operator);
-  /* Ensure that tokens have all type information set*/
-
   /* Create operator,identifier,literal, etc. tokenLists from the master list of tokens */
 
 

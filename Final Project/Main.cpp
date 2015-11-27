@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int programMain() {
+int main() {
 	ifstream sourceFile;
 	TokenList tokens;
 
@@ -98,51 +98,54 @@ int programMain() {
 	{
 	    if(t->getStringRep() == "if")
         {
-            ifEndifBalance++;
-            if(ifEndifBalance>0)
+            if(t->getPrev()->getStringRep() != "end")
             {
-                { // this part gets the tokens around the error.
-                errorCodeLine[3] = t->getStringRep();
-                if(t->getPrev()!=nullptr)
+                ifEndifBalance++;
+                if(ifEndifBalance>0)
                 {
-                    tError = t->getPrev();
-                    errorCodeLine[2] = tError->getStringRep();
+                    { // this part gets the tokens around the error.
+                    errorCodeLine[3] = t->getStringRep();
+                    if(t->getPrev()!=nullptr)
+                    {
+                        tError = t->getPrev();
+                        errorCodeLine[2] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[1] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[0] = tError->getStringRep();
+                    }
+                    if(t->getNext()!=nullptr)
+                    {
+                        tError = t->getNext();
+                        errorCodeLine[4] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[5] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[6] = tError->getStringRep();
+                    }
+                    }
+                    errorLines.push_back(errorMissingEndIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
+                    for(int ii=0; ii <7;ii++)
+                    {
+                        errorCodeLine[ii] = " ";
+                    }
                 }
-                if(tError->getPrev()!=nullptr)
+                else if(ifEndifBalance<=0)
                 {
-                    tError = tError->getPrev();
-                    errorCodeLine[1] = tError->getStringRep();
+                    errorLines.pop_back();
                 }
-                if(tError->getPrev()!=nullptr)
-                {
-                    tError = tError->getPrev();
-                    errorCodeLine[0] = tError->getStringRep();
-                }
-                if(t->getNext()!=nullptr)
-                {
-                    tError = t->getNext();
-                    errorCodeLine[4] = tError->getStringRep();
-                }
-                if(tError->getNext()!=nullptr)
-                {
-                    tError = tError->getNext();
-                    errorCodeLine[5] = tError->getStringRep();
-                }
-                if(tError->getNext()!=nullptr)
-                {
-                    tError = tError->getNext();
-                    errorCodeLine[6] = tError->getStringRep();
-                }
-                }
-                errorLines.push_back(errorMissingEndIf+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
-                for(int ii=0; ii <7;ii++)
-                {
-                    errorCodeLine[ii] = " ";
-                }
-            }
-            else if(ifEndifBalance<=0)
-            {
-                errorLines.pop_back();
             }
         }
         else if (t->getStringRep() == "end")
@@ -211,41 +214,43 @@ int programMain() {
 	{
 	    if(t->getStringRep() == "if")
         {
-            ifwhenBalance++;
-            if(ifwhenBalance>0)
+            if(t->getPrev()->getStringRep() != "end")
             {
-                { // this part gets the tokens around the error.
-                errorCodeLine[3] = t->getStringRep();
-                if(t->getPrev()!=nullptr)
+                ifwhenBalance++;
+                if(ifwhenBalance>0)
                 {
-                    tError = t->getPrev();
-                    errorCodeLine[2] = tError->getStringRep();
-                }
-                if(tError->getPrev()!=nullptr)
-                {
-                    tError = tError->getPrev();
-                    errorCodeLine[1] = tError->getStringRep();
-                }
-                if(tError->getPrev()!=nullptr)
-                {
-                    tError = tError->getPrev();
-                    errorCodeLine[0] = tError->getStringRep();
-                }
-                if(t->getNext()!=nullptr)
-                {
-                    tError = t->getNext();
-                    errorCodeLine[4] = tError->getStringRep();
-                }
-                if(tError->getNext()!=nullptr)
-                {
-                    tError = tError->getNext();
-                    errorCodeLine[5] = tError->getStringRep();
-                }
-                if(tError->getNext()!=nullptr)
-                {
-                    tError = tError->getNext();
-                    errorCodeLine[6] = tError->getStringRep();
-                }
+                    { // this part gets the tokens around the error.
+                    errorCodeLine[3] = t->getStringRep();
+                    if(t->getPrev()!=nullptr)
+                    {
+                        tError = t->getPrev();
+                        errorCodeLine[2] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[1] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[0] = tError->getStringRep();
+                    }
+                    if(t->getNext()!=nullptr)
+                    {
+                        tError = t->getNext();
+                        errorCodeLine[4] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[5] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[6] = tError->getStringRep();
+                    }
                 }
                 errorLines.push_back(errorMissingThen+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]+" "+errorCodeLine[7]);
                 for(int ii=0; ii <7;ii++)
@@ -256,6 +261,7 @@ int programMain() {
             else if(ifEndifBalance<=0)
             {
                 errorLines.pop_back();
+            }
             }
         }
         else if (t->getStringRep() == "then")
@@ -386,6 +392,7 @@ int programMain() {
 
 
         }
+        t = t->getNext();
     }
 
 
@@ -393,7 +400,7 @@ int programMain() {
 	cout << "Number of Conditional Expressions : " << numberOfCondExp <<endl;
 	cout << "Number of Missing \"end if\"s     : " << numberOfMissingEndIfs << endl;
 	cout << "Number of Missing \"if\"s         : " << numberOfMissingIfs << endl;
-	cout << "Number of Missing \"When\"s       : " << numberofMissingThens << endl;
+	cout << "Number of Missing \"Then\"s       : " << numberofMissingThens << endl;
 
 
     if(verboseModeFlag)
