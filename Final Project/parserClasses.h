@@ -146,6 +146,7 @@ private:
 	Token *head; //Points to the head of the token list (doubly linked)
 	Token *tail; //Points to the tail of the function list (doubly linked)
 
+    void SetAllDetail (Token* token, string type, int width);
 public:
 	//Default Constructor, Empty list with pointers initialized to NULL
 	TokenList() : head(nullptr), tail(nullptr) { }
