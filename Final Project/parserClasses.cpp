@@ -11,7 +11,7 @@ ENSC 251 Final Pro
 #include <stdlib.h>
 #include <stdio.h>
 /// debug code
-#include <iostream>
+//#include <iostream>
 
 
 
@@ -706,7 +706,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     }
                     if (( flagTokenType == true )&&((CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto")))
                     {
-                        cout << "token      " << tokenIs<< "     is a vector" << endl;
+                      //  cout << "token      " << tokenIs<< "     is a vector" << endl;
                         flagVector = true;
                         CurrentCheckingToken = nullptr;
                     }
