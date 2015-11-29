@@ -27,8 +27,9 @@ int main() {
 	string errorMissingEndIf = "Missing \"End If\" here: ";
 	string errorMissingThen = "Missing \"Then\" here: ";
 	string errorMissingIf = "Extra \"End If\" Here: ";
+	string errorExtraThen = "Extra \"Then\" here: ";
 	string errorTypeMismatch = "Type Mismatch of types : ";
-	string errorWidthMismatch = "Width Mismatch of Width: ";
+	string errorWidthMismatch = "Width Mismatch: ";
 	int numberOfTokens =0;
 	int numberOfCondExp =0;
 	int numberOfMissingEndIfs = 0;
@@ -232,7 +233,7 @@ int main() {
     tError = tokens.getFirst();
 	while(t)
 	{
-	    if(t->getStringRep() == "if")
+	    if(t->getStringRep() == "if" || t->getStringRep() == "elsif" )
         {
             if(t->getPrev()->getStringRep() != "end")
             {
@@ -323,7 +324,7 @@ int main() {
                     errorCodeLine[6] = tError->getStringRep();
                 }
                 }
-                errorLines.push_back(errorMissingThen+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                errorLines.push_back(errorExtraThen+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                 for(int ii=0; ii <7;ii++)
                 {
                     errorCodeLine[ii] = " ";
@@ -408,18 +409,18 @@ int main() {
                 t_after = t->getNext();
                 errorLines.push_back("Error: Cannot find previous object for \""+t->getStringRep()+ " " + t_after->getStringRep()+ "\" Operator");
             }
-
-            cout << t_before->getStringRep() << " " <<t->getStringRep() << " " << t_after->getStringRep();
+            //debug code
+            //cout << t_before->getStringRep() << " " <<t->getStringRep() << " " << t_after->getStringRep();
             t_before_details = t_before->getTokenDetails();
             t_after_details = t_after->getTokenDetails();
 
             if(t_before_details->type != t_after_details->type) // Error here.
             {
-                errorLines.push_back(errorTypeMismatch+ t_before->getStringRep()+" : "+t_before_details->type+ t->getStringRep() + t_after->getStringRep() +" : " + t_after_details->type);
+                errorLines.push_back(errorTypeMismatch+ t_before->getStringRep()+" of type "+t_before_details->type+" with operator \"" +t->getStringRep() +"\" and " + t_after->getStringRep() +" of type " + t_after_details->type);
             }
             else if (t_before_details->width != t_after_details->width)
             {
-                errorLines.push_back(errorWidthMismatch+ t_before->getStringRep()+" : "+to_string(t_before_details->width)+ t->getStringRep() + t_after->getStringRep() +" : " + to_string(t_after_details->width));
+                errorLines.push_back(errorWidthMismatch+ t_before->getStringRep()+" of width "+to_string(t_before_details->width)+" with operator \"" +t->getStringRep()+"\" and " + t_after->getStringRep() +" of width " + to_string(t_after_details->width));
             }
 
 
