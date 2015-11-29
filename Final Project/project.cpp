@@ -7,7 +7,7 @@ using namespace std;
 
 //Example Test code for interacting with your Token, TokenList, and Tokenizer classes
 //Add your own code to further test the operation of your Token, TokenList, and Tokenizer classes
-int main() {
+int xmain() {
 	ifstream sourceFile;
 	TokenList tokens;
 

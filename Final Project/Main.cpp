@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int xmain() {
+int main() {
 	ifstream sourceFile;
 	TokenList tokens;
 
@@ -59,6 +59,26 @@ int xmain() {
 		}
 	}
     ///removeComments(tokens); ///test remove comment
+    Token *t = tokens.getFirst();
+    while(t)
+	{
+	    tokens.findAndSetTokenDetails(t); ///test findAndSetTokenDetails
+        /*if(t->getTokenType() == 1 || t->getTokenType() == 2)
+        {
+           detailtoken = *(t->getTokenDetails());
+           //cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<" Token Detail: " << detailtoken.type << " Token Width: " << detailtoken.width <<endl;
+            t = t->getNext();
+        }
+        else
+        {
+            //cout << t->getStringRep() << " Token Type: " << t->getTokenType() <<endl;
+
+		t = t->getNext();
+        }
+        */
+        t = t->getNext();
+
+	}
 
 	cout << "Enter Verbose Mode? Type \"1\" for Yes, Other inputs will be a No. : ";
 	cin >> userInput;
@@ -71,7 +91,7 @@ int xmain() {
     }
 
     //This part counts the number of tokens.
-    Token *t = tokens.getFirst();
+    t = tokens.getFirst();
 	while(t)
 	{
 	    numberOfTokens++;
@@ -353,10 +373,20 @@ int xmain() {
     Token *t_after = tokens.getFirst();
     tokenDetails *t_before_details = nullptr;
     tokenDetails *t_after_details = nullptr;
-
+    bool operatorFlag = false;
 
     while(t)
     {
+        /*
+        operatorFlag = false;
+        for(int ii = 0; ii < 28; ii++)
+        {
+            if(t->getStringRep() == operatorList[ii])
+            {
+                operatorFlag = true;
+            }
+        }
+        */
         if(t->isOperator())
         {
             if(t->getPrev()!= nullptr && t->getNext() != nullptr)
@@ -379,10 +409,11 @@ int xmain() {
                 errorLines.push_back("Error: Cannot find previous object for \""+t->getStringRep()+ " " + t_after->getStringRep()+ "\" Operator");
             }
 
+            cout << t_before->getStringRep() << " " <<t->getStringRep() << " " << t_after->getStringRep();
             t_before_details = t_before->getTokenDetails();
             t_after_details = t_after->getTokenDetails();
 
-            if(t_before_details->type != t_after_details->type)
+            if(t_before_details->type != t_after_details->type) // Error here.
             {
                 errorLines.push_back(errorTypeMismatch+ t_before->getStringRep()+" : "+t_before_details->type+ t->getStringRep() + t_after->getStringRep() +" : " + t_after_details->type);
             }

@@ -9,7 +9,5 @@ end andGate;
 
 architecture func of andGate is
 begin
-    then
    F <= A and B;
-   end if
 end func;
