@@ -386,7 +386,7 @@ TokenList* findAllConditionalExpressions(const TokenList &inList)
 
         if(insideConditional)
         {
-            Token* copyOfToken = new Token(*current); // for some reason copy constructor to Token(Token*) cannot call.
+            Token* copyOfToken = new Token(*current); //create a copy of the token. //below commented code is not needed.
             /*tokenDetails* theDetails;
 
             copyOfToken->setStringRep(current->getStringRep());
