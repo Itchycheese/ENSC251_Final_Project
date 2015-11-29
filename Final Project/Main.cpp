@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+int xmain() {
 	ifstream sourceFile;
 	TokenList tokens;
 

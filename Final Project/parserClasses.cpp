@@ -11,7 +11,7 @@ ENSC 251 Final Pro
 #include <stdlib.h>
 #include <stdio.h>
 /// debug code
-//#include <iostream>
+#include <iostream>
 
 
 
@@ -635,6 +635,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
     {
         if (strSize == 1 && token->getTokenType() == T_Other) //case only 1 char
         {
+            //cout << "string size is 1 : " << tokenIs << endl;
             token->setTokenType(T_Identifier);
             flagForIdentifier = true;
         }
@@ -684,18 +685,28 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     }
                 }
             }*/
+
+           // cout << "flag for identifier " << tokenIs << " is true" << endl;
+
             Token *CurrentCheckingToken = token->getNext();
             if (CurrentCheckingToken != nullptr)
             {
                 if (CurrentCheckingToken->getStringRep()==":")
                 {
                     flagTokenType = true;
+                    //cout << "Token    " << tokenIs << "   is a token Type" << endl;
 
                 CurrentCheckingToken = CurrentCheckingToken->getNext();
-                while (CurrentCheckingToken != nullptr)
+
+                while (CurrentCheckingToken != nullptr )
                 {
-                    if (( flagTokenType == true )&&(CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto"))
+                    if (CurrentCheckingToken->getStringRep() == ";")
                     {
+                        break;
+                    }
+                    if (( flagTokenType == true )&&((CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto")))
+                    {
+                        cout << "token      " << tokenIs<< "     is a vector" << endl;
                         flagVector = true;
                         CurrentCheckingToken = nullptr;
                     }
@@ -708,6 +719,8 @@ void TokenList::findAndSetTokenDetails(Token *token)
             }
 
         }
+
+
         //after check the condition if a identifier is a vector or signal
         //we set the detail for identifier
         if (flagVector == true)
@@ -728,8 +741,13 @@ void TokenList::findAndSetTokenDetails(Token *token)
             string secondnumchar = secondnum->getStringRep();
             Token *secondnumentity = secondnum->getNext();
             string secondnumentitychar = secondnumentity->getStringRep();
+
+
+
             if ((vectorcheckchar == "to") || (vectorcheckchar == "downto"))
             {
+
+
                 //this is a vector
                 int width = abs( stoi(firstnumchar) - stoi(secondnumchar)) + 1;
                 if (token->getTokenDetails()==nullptr)
@@ -740,10 +758,14 @@ void TokenList::findAndSetTokenDetails(Token *token)
             }
             else if ( ((secondnumchar) =="to") || ((secondnumchar) =="downto") )
             {
+
+
                 int width = abs( stoi(vectorcheckchar) - stoi(secondnumentitychar)) + 1;
-                token->setTokenDetails(bracketchar, width);
+
+
                 if (token->getTokenDetails()==nullptr)
                 {
+
                     token->setTokenDetails(bracketchar, width);
                     SetAllDetail(token,bracketchar,width);
                 }
@@ -753,6 +775,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
                 if ((( token_type_string=="in") || ( token_type_string=="out") |( token_type_string=="inout")||( token_type_string=="buffer")) &&(token->getTokenDetails() == nullptr))
                 {
+
                     token->setTokenDetails(bracketchar,1);
                 }
                 else if (token->getTokenDetails()==nullptr)
@@ -772,12 +795,14 @@ void TokenList::findAndSetTokenDetails(Token *token)
             string token_type_string = token_type->getStringRep();
 
             //test
+            //cout << "token :" << tokenIs << endl;
             if (token_type_string == "in" || token_type_string=="out" || token_type_string=="inout" || token_type_string =="buffer")
             {
                 Token *token_entity = token_type->getNext();
                 string token_entity_string = token_entity ->getStringRep();
                 if(token->getTokenDetails()==nullptr)
                 {
+                   // cout << "not detail set b4, set detail" << endl;
                     token->setTokenDetails(token_entity_string,1);
                     SetAllDetail(token,token_entity_string,1);
                 }
@@ -849,16 +874,37 @@ int removeTokensOfType(TokenList &tokenList, tokenType type)
 void TokenList::SetAllDetail (Token* token, string type, int width)
 {
     Token *current = token->getNext();
+    string current_str;
+    string token_str;
+
+
+    token_str = token->getStringRep();
+    for (int ii=0; ii<token_str.size(); ++ii)
+    {
+        token_str[ii] = tolower(token_str[ii]);
+    }
+   // cout << endl << token_str << endl;
     while (current != nullptr)
     {
-        if (current ->getStringRep() == token->getStringRep())
+
+            current_str = current->getStringRep();
+            for (int ii=0; ii<current_str.size(); ++ii)
+            {
+                current_str[ii] = tolower(current_str[ii]);
+            }
+            //cout << endl << current_str<<endl;
+            //cout << "compare: " << current_str << " and "<< token_str << " : "<<endl;
+        if (current_str == token_str)
         {
+            //cout << endl << "set Detail for Token" << endl;
             current->setTokenDetails(type,width);
             current = current->getNext();
+
         }
         else
-            {
-                current = current->getNext();
-            }
+        {
+            current = current->getNext();
+
+        }
     }
 }
