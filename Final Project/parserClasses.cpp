@@ -11,7 +11,7 @@ ENSC 251 Final Pro
 #include <stdlib.h>
 #include <stdio.h>
 /// debug code
-//#include <iostream>
+#include <iostream>
 
 
 
@@ -512,8 +512,12 @@ void TokenList::findAndSetTokenDetails(Token *token)
     bool flagVector = false;
     bool flagTokenType = false;
 
-
-
+    //debug code
+    //cout << tokenIs << endl;
+    if(strSize == 0)
+    {
+        return;
+    }
     lastchar = tokenIs.substr(strSize-1,1);
     lastchar = '\0';
 
