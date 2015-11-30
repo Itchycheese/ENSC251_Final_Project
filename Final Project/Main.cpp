@@ -35,9 +35,14 @@ int main() {
 	int numberOfMissingEndIfs = 0;
 	int numberOfMissingIfs =0;
 	int numberofMissingThens =0;
+	int numberofMissingProcess =0;
+	int numberofMissingEndProcess=0;
+	int numberofMissingOpenBracket =0;
+	int numberofMissingCloseBracket =0;
 	int ifEndifBalance =0; //if there is a positive number there are too many ifs, negative number too many endifs.
 	int ifthenBalance =0; //Like above except with Then.
-
+    int processBalance =0; // like above except with process - end process
+    int BracketBalance =0; // check the missing bracket
 
 	//Read in a file line-by-line and tokenize each line
 
@@ -338,7 +343,239 @@ int main() {
         t = t->getNext();
 	}
 
+/// ///////////////////////////////////////This part counts the number of Process and End Process////////////////////////////////////////
+	t = tokens.getFirst();
+	tError = tokens.getFirst();
 
+	while(t)
+	{
+	    if(t->getStringRep() == "process")
+        {
+            if(t->getPrev()->getStringRep() != "end")
+            {
+                processBalance++;
+                if(processBalance>0)
+                {
+                    { // this part gets the tokens around the error.
+                    errorCodeLine[3] = t->getStringRep();
+                    if(t->getPrev()!=nullptr)
+                    {
+                        tError = t->getPrev();
+                        errorCodeLine[2] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[1] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[0] = tError->getStringRep();
+                    }
+                    if(t->getNext()!=nullptr)
+                    {
+                        tError = t->getNext();
+                        errorCodeLine[4] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[5] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[6] = tError->getStringRep();
+                    }
+                    }
+                    errorLines.push_back("Missing \"End Process\" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                    for(int ii=0; ii <7;ii++)
+                    {
+                        errorCodeLine[ii] = " ";
+                    }
+                }
+                else if(ifEndifBalance<=0)
+                {
+                    errorLines.pop_back();
+                }
+            }
+        }
+        else if (t->getStringRep() == "end")
+        {
+            if(t->getNext()!= nullptr)
+            {
+                tError = t->getNext();
+                if(tError ->getStringRep() == "process")
+                {
+                    processBalance--;
+                    if(processBalance<0)
+                    {
+                        { // This part gets the tokens around the error
+                        errorCodeLine[3] = t->getStringRep();
+                        if(t->getPrev()!=nullptr)
+                        {
+                            tError = t->getPrev();
+                            errorCodeLine[2] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[1] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[0] = tError->getStringRep();
+                        }
+                        if(t->getNext()!=nullptr)
+                        {
+                            tError = t->getNext();
+                            errorCodeLine[4] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[5] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[6] = tError->getStringRep();
+                        }
+                        }
+                        errorLines.push_back("Missing \"Process\" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                        for(int ii=0; ii <7;ii++)
+                        {
+                            errorCodeLine[ii] = " ";
+                        }
+                    }
+                    else if (processBalance>=0)
+                    {
+                        errorLines.pop_back();
+                    }
+                }
+            }
+        }
+		t = t->getNext();
+	}
+	/// ///////////////////////////////////////This part counts the number of missing bracket////////////////////////////////////////
+	t = tokens.getFirst();
+	tError = tokens.getFirst();
+
+	while(t)
+	{
+	    if(t->getStringRep() == "(")
+        {
+            //if(t->getPrev()->getStringRep() != "end")
+            //{
+                BracketBalance++;
+                if(BracketBalance>0)
+                {
+                    { // this part gets the tokens around the error.
+                    errorCodeLine[3] = t->getStringRep();
+                    if(t->getPrev()!=nullptr)
+                    {
+                        tError = t->getPrev();
+                        errorCodeLine[2] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[1] = tError->getStringRep();
+                    }
+                    if(tError->getPrev()!=nullptr)
+                    {
+                        tError = tError->getPrev();
+                        errorCodeLine[0] = tError->getStringRep();
+                    }
+                    if(t->getNext()!=nullptr)
+                    {
+                        tError = t->getNext();
+                        errorCodeLine[4] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[5] = tError->getStringRep();
+                    }
+                    if(tError->getNext()!=nullptr)
+                    {
+                        tError = tError->getNext();
+                        errorCodeLine[6] = tError->getStringRep();
+                    }
+                    }
+                    errorLines.push_back("Missing \"Open Bracket  \"(\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                    for(int ii=0; ii <7;ii++)
+                    {
+                        errorCodeLine[ii] = " ";
+                    }
+                }
+                else if(BracketBalance<=0)
+                {
+                    errorLines.pop_back();
+                }
+            //}
+        }
+        else if (t->getStringRep() == ")")
+        {
+            //if(t->getNext()!= nullptr)
+            //{
+                //tError = t->getNext();
+                //if(tError ->getStringRep() == "process")
+               // {
+                    BracketBalance--;
+                    if(BracketBalance<0)
+                    {
+                        { // This part gets the tokens around the error
+                        errorCodeLine[3] = t->getStringRep();
+                        if(t->getPrev()!=nullptr)
+                        {
+                            tError = t->getPrev();
+                            errorCodeLine[2] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[1] = tError->getStringRep();
+                        }
+                        if(tError->getPrev()!=nullptr)
+                        {
+                            tError = tError->getPrev();
+                            errorCodeLine[0] = tError->getStringRep();
+                        }
+                        if(t->getNext()!=nullptr)
+                        {
+                            tError = t->getNext();
+                            errorCodeLine[4] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[5] = tError->getStringRep();
+                        }
+                        if(tError->getNext()!=nullptr)
+                        {
+                            tError = tError->getNext();
+                            errorCodeLine[6] = tError->getStringRep();
+                        }
+                        }
+                        errorLines.push_back("Missing \"Close Bracket \")\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                        for(int ii=0; ii <7;ii++)
+                        {
+                            errorCodeLine[ii] = " ";
+                        }
+                    }
+                    else if (BracketBalance>=0)
+                    {
+                        errorLines.pop_back();
+                    }
+                }
+            //}
+        //}
+		t = t->getNext();
+	}
+    ////////////////////////////////////set the balance ////////////////////////////////
 	if (ifEndifBalance == 0)
     {
         numberOfMissingEndIfs =0;
@@ -367,6 +604,41 @@ int main() {
     {
         numberOfMissingIfs = numberOfMissingIfs + abs(ifthenBalance);
         numberofMissingThens =0;
+    }
+
+    if (processBalance == 0)
+    {
+        numberofMissingProcess=0;
+        numberofMissingEndProcess=0;
+    }
+    else if (processBalance > 0)
+    {
+       numberofMissingEndProcess = abs(processBalance);
+       numberofMissingProcess =0;
+
+    }
+    else if (processBalance <0)
+    {
+        numberofMissingProcess = numberofMissingProcess + abs(processBalance);
+        numberofMissingEndProcess =0;
+    }
+
+
+    if (BracketBalance == 0)
+    {
+        numberofMissingOpenBracket=0;
+        numberofMissingCloseBracket=0;
+    }
+    else if (BracketBalance > 0)
+    {
+       numberofMissingCloseBracket = abs(processBalance);
+       numberofMissingOpenBracket =0;
+
+    }
+    else if (processBalance <0)
+    {
+        numberofMissingOpenBracket = numberofMissingOpenBracket + abs(processBalance);
+        numberofMissingCloseBracket=0;
     }
 
     t = tokens.getFirst();
@@ -429,11 +701,15 @@ int main() {
     }
 
 
-	cout << "Number of Tokens                  : " << numberOfTokens <<endl;
-	cout << "Number of Conditional Expressions : " << numberOfCondExp <<endl;
-	cout << "Number of Missing \"end if\"s     : " << numberOfMissingEndIfs << endl;
-	cout << "Number of Missing \"if\"s         : " << numberOfMissingIfs << endl;
-	cout << "Number of Missing \"Then\"s       : " << numberofMissingThens << endl;
+	cout << "Number of Tokens                           : " << numberOfTokens <<endl;
+	cout << "Number of Conditional Expressions          : " << numberOfCondExp <<endl;
+	cout << "Number of Missing \"end if\"s              : " << numberOfMissingEndIfs << endl;
+	cout << "Number of Missing \"if\"s                  : " << numberOfMissingIfs << endl;
+	cout << "Number of Missing \"Then\"s                : " << numberofMissingThens << endl;
+	cout << "Number of Missing \"Process\"              : " << numberofMissingProcess << endl;
+	cout << "Number of Missing \"End Process\"          : " << numberofMissingEndProcess << endl;
+	cout << "Number of Missing \"Open Bracket \"(\"  \" : " << numberofMissingOpenBracket << endl;
+	cout << "Number of Missing \"Close Bracket \")\" \" : " << numberofMissingCloseBracket << endl;
 
 
     if(verboseModeFlag)

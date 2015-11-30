@@ -24,11 +24,11 @@ begin
     begin
         -- compare to truth table
 	if (x/=y) then
-            F <= '1';
+            F <= x;
 	else
-	    F <= '0';
-	end if;
-    end process;
+	    F <= y;
+	-- end if;
+   -- end process;
 
 end behv1;
 
