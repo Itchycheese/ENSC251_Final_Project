@@ -542,6 +542,18 @@ void TokenList::findAndSetTokenDetails(Token *token)
         }
     }
 
+    //------------------check if the token has value "true" or "false"-----------------------------
+    if (tokenIs == "true" || tokenIs == "false")
+    {
+        token->setTokenType(T_Literal);
+        if (token->getTokenDetails() == nullptr)
+        {
+            token->setTokenDetails("boolean",1);
+            SetAllDetail(token,"boolean",1);
+            return;
+        }
+    }
+
     /// Checks to see if the token is a literal.
     firstchar = tokenIs.substr(0,1); //check if it is a integer.
     firstcharflag = firstchar.find_first_of("0123456789",0);
@@ -655,41 +667,6 @@ void TokenList::findAndSetTokenDetails(Token *token)
         }
         if ( flagForIdentifier == true)
         {
-           /* if ((token->getNext()!= nullptr) && (token->getPrev()!= nullptr))
-            {
-                Token *next_token = token->getNext();
-                if (next_token->getNext()!= nullptr)
-                {
-                    Token *type_token = next_token->getNext();
-                    if (type_token->getNext()!= nullptr)
-                    {
-                        // have a open bracket -> must be a vector
-                        //if not a bracket -> just a signal
-                        Token *bracketcheck = type_token->getNext();
-
-                       if (((bracketcheck->getStringRep()=="(") ||(bracketcheck->getStringRep() == "[")) && next_token->getStringRep() == ":")
-                        {
-                            flagVector = true;
-                        }
-                        else if (next_token->getStringRep() == ":")
-                        {
-                            flagTokenType = true;
-                        }
-                        // case the entity declare a vector
-                        Token *bracketOfEntity = bracketcheck->getNext();
-                        if (bracketOfEntity->getStringRep() == "(" && next_token->getStringRep() == ":")
-                        {
-                            flagTokenType = false;
-                            flagVector =true;
-                        }
-                    }
-                    if (type_token ->getNext() == nullptr)
-                    {
-                        flagTokenType = true;
-                    }
-                }
-            }*/
-
            // cout << "flag for identifier " << tokenIs << " is true" << endl;
 
             Token *CurrentCheckingToken = token->getNext();
@@ -700,25 +677,28 @@ void TokenList::findAndSetTokenDetails(Token *token)
                     flagTokenType = true;
                     //cout << "Token    " << tokenIs << "   is a token Type" << endl;
 
+                    CurrentCheckingToken = CurrentCheckingToken->getNext();
+
+                //CurrentCheckingToken = token->getNext();
                 CurrentCheckingToken = CurrentCheckingToken->getNext();
 
-                while (CurrentCheckingToken != nullptr )
-                {
-                    if (CurrentCheckingToken->getStringRep() == ";")
+                    while (CurrentCheckingToken != nullptr )
                     {
-                        break;
+                        if (CurrentCheckingToken->getStringRep() == ";")
+                        {
+                            break;
+                        }
+                        if (( flagTokenType == true )&&((CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto")))
+                        {
+                        //  cout << "token      " << tokenIs<< "     is a vector" << endl;
+                            flagVector = true;
+                            CurrentCheckingToken = nullptr;
+                        }
+                        else
+                        {
+                            CurrentCheckingToken = CurrentCheckingToken->getNext();
+                        }
                     }
-                    if (( flagTokenType == true )&&((CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto")))
-                    {
-                      //  cout << "token      " << tokenIs<< "     is a vector" << endl;
-                        flagVector = true;
-                        CurrentCheckingToken = nullptr;
-                    }
-                    else
-                    {
-                        CurrentCheckingToken = CurrentCheckingToken->getNext();
-                    }
-                }
                 }
             }
 
