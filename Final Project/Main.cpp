@@ -701,15 +701,15 @@ int main() {
     }
 
 
-	cout << "Number of Tokens                           : " << numberOfTokens <<endl;
-	cout << "Number of Conditional Expressions          : " << numberOfCondExp <<endl;
-	cout << "Number of Missing \"end if\"s              : " << numberOfMissingEndIfs << endl;
-	cout << "Number of Missing \"if\"s                  : " << numberOfMissingIfs << endl;
-	cout << "Number of Missing \"Then\"s                : " << numberofMissingThens << endl;
-	cout << "Number of Missing \"Process\"              : " << numberofMissingProcess << endl;
-	cout << "Number of Missing \"End Process\"          : " << numberofMissingEndProcess << endl;
-	cout << "Number of Missing \"Open Bracket \"(\"  \" : " << numberofMissingOpenBracket << endl;
-	cout << "Number of Missing \"Close Bracket \")\" \" : " << numberofMissingCloseBracket << endl;
+	cout << "Number of Tokens                               : " << numberOfTokens <<endl;
+	cout << "Number of Conditional Expressions              : " << numberOfCondExp <<endl;
+	cout << "Number of Missing \"end if\"s                    : " << numberOfMissingEndIfs << endl;
+	cout << "Number of Missing \"if\"s                        : " << numberOfMissingIfs << endl;
+	cout << "Number of Missing \"Then\"s                      : " << numberofMissingThens << endl;
+	cout << "Number of Missing \"Process\"                    : " << numberofMissingProcess << endl;
+	cout << "Number of Missing \"End Process\"                : " << numberofMissingEndProcess << endl;
+	cout << "Number of Missing \"Open Bracket \"(\"  \"         : " << numberofMissingOpenBracket << endl;
+	cout << "Number of Missing \"Close Bracket \")\" \"         : " << numberofMissingCloseBracket << endl;
 
 
     if(verboseModeFlag)

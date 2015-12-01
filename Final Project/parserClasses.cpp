@@ -684,11 +684,17 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
                     while (CurrentCheckingToken != nullptr )
                     {
-                        if (CurrentCheckingToken->getStringRep() == ";")
+                        string current = CurrentCheckingToken->getStringRep();
+                        for (int ii=0; ii< current.size() ; ++ii)
+                        {
+                            current[ii] = tolower(current[ii]);
+                        }
+
+                        if (current == ";")
                         {
                             break;
                         }
-                        if (( flagTokenType == true )&&((CurrentCheckingToken->getStringRep() == "to") || (CurrentCheckingToken->getStringRep() == "downto")))
+                        if (( flagTokenType == true )&&((current == "to") || (current== "downto")))
                         {
                         //  cout << "token      " << tokenIs<< "     is a vector" << endl;
                             flagVector = true;
@@ -711,20 +717,52 @@ void TokenList::findAndSetTokenDetails(Token *token)
         {
             Token *previous_token = token->getPrev();
             string previous_token_string = previous_token->getStringRep();
+            for (int ii=0; ii< previous_token_string.size() ; ++ii)
+                {
+                    previous_token_string[ii] = tolower(previous_token_string[ii]);
+                }
             Token *next_token = token->getNext();
             string next_token_string = next_token->getStringRep();
+            for (int ii=0; ii< next_token_string.size() ; ++ii)
+                    {
+                        next_token_string[ii] = tolower(next_token_string[ii]);
+                    }
             Token *token_type = next_token->getNext();
             string token_type_string = token_type->getStringRep();
+             for (int ii=0; ii< token_type_string.size() ; ++ii)
+                {
+                    token_type_string[ii] = tolower(token_type_string[ii]);
+                }
             Token *bracket = token_type ->getNext();
             string bracketchar = bracket->getStringRep();
+             for (int ii=0; ii< bracketchar.size() ; ++ii)
+                    {
+                        bracketchar[ii] = tolower(bracketchar[ii]);
+                    }
             Token *firstnum = bracket->getNext();
             string firstnumchar = firstnum->getStringRep();
+             for (int ii=0; ii< firstnumchar.size() ; ++ii)
+                    {
+                        firstnumchar[ii] = tolower(firstnumchar[ii]);
+                    }
             Token *vectorcheck = firstnum->getNext();
             string vectorcheckchar = vectorcheck->getStringRep();
+             for (int ii=0; ii< vectorcheckchar.size() ; ++ii)
+                    {
+                        vectorcheckchar[ii] = tolower(vectorcheckchar[ii]);
+                    }
             Token *secondnum = vectorcheck->getNext();
             string secondnumchar = secondnum->getStringRep();
+             for (int ii=0; ii< secondnumchar.size() ; ++ii)
+                    {
+                        secondnumchar[ii] = tolower(secondnumchar[ii]);
+                    }
             Token *secondnumentity = secondnum->getNext();
             string secondnumentitychar = secondnumentity->getStringRep();
+             for (int ii=0; ii< secondnumentitychar.size() ; ++ii)
+                    {
+                       secondnumentitychar[ii] = tolower(secondnumentitychar[ii]);
+                    }
 
 
 
@@ -773,10 +811,22 @@ void TokenList::findAndSetTokenDetails(Token *token)
         {
             Token *previous_token = token->getPrev();
             string previous_token_string = previous_token->getStringRep();
+             for (int ii=0; ii< previous_token_string.size() ; ++ii)
+                    {
+                        previous_token_string[ii] = tolower(previous_token_string[ii]);
+                    }
             Token *next_token = token->getNext();
             string next_token_string = next_token->getStringRep();
+             for (int ii=0; ii< next_token_string.size() ; ++ii)
+                    {
+                        next_token_string[ii] = tolower(next_token_string[ii]);
+                    }
             Token *token_type = next_token->getNext();
             string token_type_string = token_type->getStringRep();
+             for (int ii=0; ii< token_type_string.size() ; ++ii)
+                    {
+                        token_type_string[ii] = tolower(token_type_string[ii]);
+                    }
 
             //test
             //cout << "token :" << tokenIs << endl;
@@ -784,6 +834,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
             {
                 Token *token_entity = token_type->getNext();
                 string token_entity_string = token_entity ->getStringRep();
+                 for (int ii=0; ii< token_entity_string.size() ; ++ii)
+                    {
+                        token_entity_string[ii] = tolower(token_entity_string[ii]);
+                    }
                 if(token->getTokenDetails()==nullptr)
                 {
                    // cout << "not detail set b4, set detail" << endl;
