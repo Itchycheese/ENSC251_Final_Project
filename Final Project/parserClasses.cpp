@@ -76,16 +76,16 @@ void Tokenizer::prepareNextToken()
     size_t temp_offset;
     size_t non_quote_delimiter = string::npos;
 
-    //--------------------------check if we are at the end of the line------------------------------------------------------------------------------
+    //check if we are at the end of the line
     if(offset >= thestring.length()) //check if it the end of string, if yes stop prepare the next token
     {
         complete = true;
         return;
     }
-    /*
+
     //first step is to get the first token.
     //start of a new string
-
+    /*
     if (offset ==0)
     {
         firstchar = thestring.substr(offset,1);
@@ -94,13 +94,13 @@ void Tokenizer::prepareNextToken()
         return;
     }
     */
-    //--------------------------normal cases--------------------------------------------------------------------------------------------------------
+    //normal cases
     firstchar = thestring.substr(offset,1);
     delimiter_test = firstchar.find_first_of(",.;[]{}()?`~!@#$%^&|+",0);
     if (delimiter_test != 0) // checking if the first char, if first char is not one of the single delimiter, then token length is not 1
     {
 
-        /// --------------------------checks for single quotes - if yes the entire quote will be 1 token----------------------------------------------------
+        /// checks for single quotes - if yes the entire quote will be 1 token
         quote_delim_test = firstchar.find_first_of("'",0);
         if(quote_delim_test == 0)
         {
@@ -120,7 +120,7 @@ void Tokenizer::prepareNextToken()
             return;
         }
 
-        ///--------------------------checks for double quotes - if yes, the entire double quote will be 1 token--------------------------
+        ///checks for double quotes - if yes, the entire double quote will be 1 token
         quote_delim_test = firstchar.find_first_of("\"",0);
         if(quote_delim_test == 0)
         {
@@ -129,7 +129,7 @@ void Tokenizer::prepareNextToken()
             return;
         }
 
-        ///--------------------------checks for <= delimiter----------------------------------------------------
+        ///checks for <= delimiter
         quote_delim_test = firstchar.find_first_of("<",0);
         if(quote_delim_test == 0)
         {
@@ -146,7 +146,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for => delimiter----------------------------------------------------
+        ///checks for => delimiter
         quote_delim_test = firstchar.find_first_of("=",0);
         if(quote_delim_test == 0)
         {
@@ -163,7 +163,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for := double delimiter----------------------------------------------------
+        ///checks for := double delimiter
         quote_delim_test = firstchar.find_first_of(":",0);
         if(quote_delim_test == 0)
         {
@@ -180,7 +180,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for /= double delimiter----------------------------------------------------
+        ///checks for /= double delimiter
         quote_delim_test = firstchar.find_first_of("//",0);
         if(quote_delim_test == 0)
         {
@@ -197,7 +197,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for ** double delimiter----------------------------------------------------
+        ///checks for ** double delimiter
         quote_delim_test = firstchar.find_first_of("*",0);
         if(quote_delim_test == 0)
         {
@@ -214,7 +214,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for >= double delimiter----------------------------------------------------
+        ///checks for >= double delimiter
         quote_delim_test = firstchar.find_first_of(">",0);
         if(quote_delim_test == 0)
         {
@@ -231,7 +231,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks for -- double delimiter, this also the begin of a comments for the removeComment function later--------------------------
+        ///checks for -- double delimiter, this also the begin of a comments for the removeComment function later
         quote_delim_test = firstchar.find_first_of("-",0);
         if(quote_delim_test == 0)
         {
@@ -248,7 +248,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        ///--------------------------checks if it is a bit vector------------------------------------------------------------------------------
+        ///checks if it is a bit vector
         quote_delim_test = firstchar.find_first_of("bBOoxX",0);
         if(quote_delim_test == 0)
         {
@@ -261,7 +261,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        /// --------------------------checks for word entities - no delimiter or bit vector, it just a normal words - numbers entities token--------------------------
+        /// checks for word entities - no delimiter or bit vector, it just a normal words - numbers entities token
         {
             quote_delim_test = firstchar.find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIGJLMNOPQRSTUVWXYZ0123456789",0); //case sensitive and number as a token
             if(quote_delim_test == 0) // all other case hase been cover -> thus, it must be a word-number entity token.
@@ -273,7 +273,7 @@ void Tokenizer::prepareNextToken()
 
         }
 
-        /// --------------------------checks for whitespace. if it is a white space/tab, we will skip this -> it 's not a token--------------------------
+        /// checks for whitespace. if it is a white space/tab, we will skip this -> it 's not a token
         {
             quote_delim_test = firstchar.find_first_of(" \t\r",0);
             if(quote_delim_test == 0)
@@ -284,7 +284,7 @@ void Tokenizer::prepareNextToken()
             }
         }
 
-        /// --------------------------checks for newlines -> skip new line, it is not a token----------------------------------------------------
+        /// checks for newlines -> skip new line, it is not a token
         {
             quote_delim_test = firstchar.find_first_of("\n",0);
             if(quote_delim_test == 0)
@@ -378,7 +378,7 @@ TokenList* findAllConditionalExpressions(const TokenList &inList)
 
     while(current->getNext() != nullptr)
     {
-        if(current->getStringRep() == "else" || current->getStringRep() == "then") // when we reach else/then its is the end of conditional expression -> set the flag insideConditional to false
+        if(current->getStringRep() == "else" || current->getStringRep() == "then")
         {
             returnedList->append("\\n");
             insideConditional = false;
@@ -387,9 +387,6 @@ TokenList* findAllConditionalExpressions(const TokenList &inList)
         if(insideConditional)
         {
             Token* copyOfToken = new Token(*current); //create a copy of the token. //below commented code is not needed.
-
-            //testing
-
             /*tokenDetails* theDetails;
 
             copyOfToken->setStringRep(current->getStringRep());
@@ -407,12 +404,12 @@ TokenList* findAllConditionalExpressions(const TokenList &inList)
 
             returnedList->append(copyOfToken);
         }
-        else if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when") // reach the beginning of the conditional expression -> set the flag as true -> start to copy the expression
+        else if(current->getStringRep() == "if" || current->getStringRep() == "elsif" || current->getStringRep() == "when")
         {
             insideConditional = true;
         }
 
-        current = current->getNext(); // increment
+        current = current->getNext();
     }
     return returnedList;
 }
@@ -499,43 +496,43 @@ int removeComments(TokenList &tokenList)
 
 void TokenList::findAndSetTokenDetails(Token *token)
 {
-    string tokenIs; // the string that the token  contain
-    size_t strSize; // the size of above string
-    string firstchar; // first char of the string inside the token
-    string secondchar; // second char
-    string lastchar; // last char
-    size_t firstcharflag; // flag will be zero if the first char of the string is a letter
-    size_t secondcharflag; // same as above for second char
+    string tokenIs;
+    size_t strSize;
+    string firstchar;
+    string secondchar;
+    string lastchar;
+    size_t firstcharflag;
+    size_t secondcharflag;
     char lowChar;
-    int bitWidthMultiplier = 1; // the multiplier to indicate width of bit vector
-    int bitWidth = 0; // width of bit vector
+    int bitWidthMultiplier = 1;
+    int bitWidth = 0;
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
-    bool flagForIdentifier = false; //flag that the token is an identifier
-    bool flagVector = false; // flag to know if the token is a vector -> set the detail type and width of the vector
-    bool flagTokenType = false; // flag the token is an identifier but not a vector -> set token detail and the width will be 1 for this token
+    bool flagForIdentifier = false;
+    bool flagVector = false;
+    bool flagTokenType = false;
 
     //debug code
     //cout << tokenIs << endl;
-    if(strSize == 0) // if we have an emty token -> skip the function
+    if(strSize == 0)
     {
         return;
     }
-    //lastchar = tokenIs.substr(strSize-1,1);
+    lastchar = tokenIs.substr(strSize-1,1);
     lastchar = '\0';
 
-    if(strSize != 1) // copy the last char of the string if the string length is > 1
+    if(strSize != 1)
     {
         lastchar = tokenIs.substr(strSize-1,1);
     }
 
-    /// -------------------------- the string tolower.----------------------------------------------------
+    /// Coverts the string tolower.
     for (int ii=0; ii<strSize; ++ii)
     {
         tokenIs[ii] = tolower(tokenIs[ii]);
     }
 
-    /// --------------------------Checks to see if the token is a keyword.----------------------------------------------------
+    /// Checks to see if the token is a keyword.
     for(int ii=0; ii < 97; ii++)
     {
         if (tokenIs == keyWordList[ii])
@@ -545,33 +542,20 @@ void TokenList::findAndSetTokenDetails(Token *token)
         }
     }
 
-    /// --------------------------Checks to see if the token is a literal.----------------------------------------------------
+    /// Checks to see if the token is a literal.
     firstchar = tokenIs.substr(0,1); //check if it is a integer.
     firstcharflag = firstchar.find_first_of("0123456789",0);
     if(firstcharflag == 0)
     {
         token->setTokenType(T_Literal);
-        if (token->getTokenDetails() == nullptr) // this mean if the token Detail haven't been set ->we will set the detail
+        if (token->getTokenDetails() == nullptr)
         {
             token->setTokenDetails("integer",strSize);
             SetAllDetail(token,"integer",strSize);
-            return;
         }
 
     }
-    //------------------check if the token has value "true" or "false"-----------------------------
-    if (tokenIs == "true" || tokenIs == "false")
-    {
-        token->setTokenType(T_Literal);
-        if (token->getTokenDetails() == nullptr)
-        {
-            token->setTokenDetails("boolean",1);
-            SetAllDetail(token,"boolean",1);
-            return;
-        }
-    }
-    //--------------------checks to see if it is one of them bit vectors.-------------------------
-    firstcharflag = firstchar.find_first_of("bBOoxX",0);
+    firstcharflag = firstchar.find_first_of("bBOoxX",0); //checks to see if it is one of them bit vectors.
     if(firstcharflag == 0)
     {
         secondchar = tokenIs.substr(1,1);
@@ -593,11 +577,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
                 token->setTokenType(T_Literal);
                 bitWidth = ((strSize-3)*bitWidthMultiplier);
-                if (token->getTokenDetails()==nullptr) // set the detail for this token if the token have not be set b4. also set the detail for all the token with the same name.
+                if (token->getTokenDetails()==nullptr)
                 {
                 token->setTokenDetails("Literal", bitWidth);
                 SetAllDetail(token,"Literal",bitWidth);
-                return;
                 }
 
 
@@ -610,11 +593,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
             bitWidthMultiplier = 1;
             token->setTokenType(T_Literal);
             bitWidth = ((strSize-2)*bitWidthMultiplier);
-            if (token->getTokenDetails()==nullptr) // set the detail for this token and all token with same name if the detail have not been set yet.
+            if (token->getTokenDetails()==nullptr)
                 {
                 token->setTokenDetails("Literal", bitWidth);
                 SetAllDetail(token,"Literal",bitWidth);
-                return;
                 }
         }
     }
@@ -625,37 +607,32 @@ void TokenList::findAndSetTokenDetails(Token *token)
             bitWidthMultiplier = 1;
             token->setTokenType(T_Literal);
             bitWidth = ((strSize-2)*bitWidthMultiplier);
-            if (token->getTokenDetails()==nullptr) // set detail if detail have not been set.
+            if (token->getTokenDetails()==nullptr)
                 {
                 token->setTokenDetails("Literal", bitWidth);
                 SetAllDetail(token,"Literal",bitWidth);
-                return;
                 }
         }
     }
 
 
-    ///--------------------------check if token is a comment body----------------------------------------------------
-
-
+    ///check if token is a comment body
     if (token->getPrev() != nullptr)
     {
         Token *previous_token = nullptr;
         previous_token = token->getPrev();
         string previous_token_string = previous_token->getStringRep();
-        if ( previous_token_string == "--") /// this token is a comment body because before it is a "--"
+        if ( previous_token_string == "--") /// this token is a comment body
             {
-                token->setTokenType(T_CommentBody); //set type T_CommentBody for this token
-                if (token->getTokenDetails()== nullptr) // set detail for this specific token as a comment body
+                token->setTokenType(T_CommentBody);
+                if (token->getTokenDetails()== nullptr)
                 {
                     token->setTokenDetails("comment",0);
-                    return;
                 }
             }
     }
 
-    ///--------------------------check to see if a token is a identifier----------------------------------------------------
-    // we dont need to worry if this token is al
+    ///check to see if a token is a identifier
 
     firstcharflag = firstchar.find_first_of("abcdefghijklmnopqrstuwxyz",0);
     if (firstcharflag == 0)
@@ -663,11 +640,10 @@ void TokenList::findAndSetTokenDetails(Token *token)
         if (strSize == 1 && token->getTokenType() == T_Other) //case only 1 char
         {
             //cout << "string size is 1 : " << tokenIs << endl;
-
-            token->setTokenType(T_Identifier); // set the type for the token as T_Identifier
+            token->setTokenType(T_Identifier);
             flagForIdentifier = true;
         }
-        else // case more than 1 char, we need to check the second char -> if second char is not make the token become bitvector -> it will be identifier
+        else // case more than 1 char
         {
             secondchar =tokenIs.substr(1,1);
             secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0);
@@ -677,32 +653,54 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 flagForIdentifier = true;
             }
         }
-        if ( flagForIdentifier == true) // this part will check if the identifier has vector detail
+        if ( flagForIdentifier == true)
         {
+           /* if ((token->getNext()!= nullptr) && (token->getPrev()!= nullptr))
+            {
+                Token *next_token = token->getNext();
+                if (next_token->getNext()!= nullptr)
+                {
+                    Token *type_token = next_token->getNext();
+                    if (type_token->getNext()!= nullptr)
+                    {
+                        // have a open bracket -> must be a vector
+                        //if not a bracket -> just a signal
+                        Token *bracketcheck = type_token->getNext();
+
+                       if (((bracketcheck->getStringRep()=="(") ||(bracketcheck->getStringRep() == "[")) && next_token->getStringRep() == ":")
+                        {
+                            flagVector = true;
+                        }
+                        else if (next_token->getStringRep() == ":")
+                        {
+                            flagTokenType = true;
+                        }
+                        // case the entity declare a vector
+                        Token *bracketOfEntity = bracketcheck->getNext();
+                        if (bracketOfEntity->getStringRep() == "(" && next_token->getStringRep() == ":")
+                        {
+                            flagTokenType = false;
+                            flagVector =true;
+                        }
+                    }
+                    if (type_token ->getNext() == nullptr)
+                    {
+                        flagTokenType = true;
+                    }
+                }
+            }*/
 
            // cout << "flag for identifier " << tokenIs << " is true" << endl;
 
             Token *CurrentCheckingToken = token->getNext();
             if (CurrentCheckingToken != nullptr)
             {
-                if (CurrentCheckingToken->getStringRep()==":") //checking if this define a token type
+                if (CurrentCheckingToken->getStringRep()==":")
                 {
                     flagTokenType = true;
                     //cout << "Token    " << tokenIs << "   is a token Type" << endl;
 
                 CurrentCheckingToken = CurrentCheckingToken->getNext();
-                //----testing -----
-                while (CurrentCheckingToken->getStringRep() != ";" || CurrentCheckingToken->getStringRep() != "("|| CurrentCheckingToken->getStringRep()  != ")" || CurrentCheckingToken!= nullptr)
-                {
-                    if (CurrentCheckingToken->getStringRep()==":") //checking if this define a token type
-                    {
-                        flagTokenType = true;
-                    }
-                    CurrentCheckingToken = CurrentCheckingToken->getNext();
-                }
-                //CurrentCheckingToken = token->getNext();
-                CurrentCheckingToken = CurrentCheckingToken->getNext();
-                //-----testing----
 
                 while (CurrentCheckingToken != nullptr )
                 {
@@ -832,7 +830,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
         }
     }
-    ///--------------------------check to see if token is an operator------------------------------------------------------------------------------
+    ///check to see if token is an operator
             for(int ii=0; ii < 28; ii++)
                 {
                     if (tokenIs == operatorList[ii])
@@ -842,13 +840,11 @@ void TokenList::findAndSetTokenDetails(Token *token)
                         break;
                     }
                 }
-    /// --------------------------it will type Other if it not any other type - which is the default type in the default constructor--------------------------
+    /// it will type Other if it not any other type - which is the default type in the default constructor
 
 }
 
-// This is Function use to remove the function with a specific type
-// Input: the input will be the token List and the Type of token that we want to remove
-// Output: the output will be the token list that have the all token with Remove-type remove
+
 
 int removeTokensOfType(TokenList &tokenList, tokenType type)
 {
@@ -878,10 +874,6 @@ int removeTokensOfType(TokenList &tokenList, tokenType type)
         }
     return num_token_delete;
 }
-
-//This Is the Function help us to set the Detail for all the token with the same name from the node input until the end of code
-//Input: the node that we got the detail from, the type of the node and the width of the node
-
 
 void TokenList::SetAllDetail (Token* token, string type, int width)
 {
