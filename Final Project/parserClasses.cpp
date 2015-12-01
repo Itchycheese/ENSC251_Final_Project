@@ -496,32 +496,32 @@ int removeComments(TokenList &tokenList)
 
 void TokenList::findAndSetTokenDetails(Token *token)
 {
-    string tokenIs;
-    size_t strSize;
-    string firstchar;
-    string secondchar;
-    string lastchar;
-    size_t firstcharflag;
-    size_t secondcharflag;
+    string tokenIs; // the string that the token  contain
+    size_t strSize;// the size of above string
+    string firstchar; // first char of the string inside the token
+    string secondchar;// second char
+    string lastchar;// last char
+    size_t firstcharflag; // flag will be zero if the first char of the string is a letter
+    size_t secondcharflag;// same as above for second char
     char lowChar;
-    int bitWidthMultiplier = 1;
-    int bitWidth = 0;
+    int bitWidthMultiplier = 1; // the multiplier to indicate width of bit vector
+    int bitWidth = 0; // width of bit vector
     tokenIs = token->getStringRep();
     strSize = tokenIs.size();
-    bool flagForIdentifier = false;
-    bool flagVector = false;
-    bool flagTokenType = false;
+    bool flagForIdentifier = false; //flag that the token is an identifier
+    bool flagVector = false;// flag to know if the token is a vector -> set the detail type and width of the vector
+    bool flagTokenType = false;// flag the token is an identifier but not a vector -> set token detail and the width will be 1 for this token
 
     //debug code
     //cout << tokenIs << endl;
-    if(strSize == 0)
+    if(strSize == 0)   // if we have an emty token -> skip the function
     {
         return;
     }
-    lastchar = tokenIs.substr(strSize-1,1);
+    //lastchar = tokenIs.substr(strSize-1,1);
     lastchar = '\0';
 
-    if(strSize != 1)
+    if(strSize != 1) // copy the last char of the string if the string length is > 1
     {
         lastchar = tokenIs.substr(strSize-1,1);
     }
@@ -655,7 +655,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
             token->setTokenType(T_Identifier);
             flagForIdentifier = true;
         }
-        else // case more than 1 char
+        else // case more than 1 char , we need to check the second char -> if second char is not make the token become bitvector -> it will be identifier
         {
             secondchar =tokenIs.substr(1,1);
             secondcharflag = secondchar.find_first_of("abcdefghijklmnopqrstuwxyz0123456789",0);
@@ -665,7 +665,7 @@ void TokenList::findAndSetTokenDetails(Token *token)
                 flagForIdentifier = true;
             }
         }
-        if ( flagForIdentifier == true)
+        if ( flagForIdentifier == true) // this part will check if the identifier has vector detail
         {
            // cout << "flag for identifier " << tokenIs << " is true" << endl;
 
@@ -824,7 +824,9 @@ void TokenList::findAndSetTokenDetails(Token *token)
 
 }
 
-
+// This is Function use to remove the function with a specific type
+// Input: the input will be the token List and the Type of token that we want to remove
+// Output: the output will be the token list that have the all token with Remove-type remove
 
 int removeTokensOfType(TokenList &tokenList, tokenType type)
 {
@@ -855,6 +857,8 @@ int removeTokensOfType(TokenList &tokenList, tokenType type)
     return num_token_delete;
 }
 
+//This Is the Function help us to set the Detail for all the token with the same name from the node input until the end of code
+//Input: the node that we got the detail from, the type of the node and the width of the node
 void TokenList::SetAllDetail (Token* token, string type, int width)
 {
     Token *current = token->getNext();
