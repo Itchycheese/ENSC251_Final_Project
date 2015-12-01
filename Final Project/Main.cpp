@@ -505,7 +505,7 @@ int main() {
                         errorCodeLine[6] = tError->getStringRep();
                     }
                     }
-                    errorLines.push_back("Missing \"Open Bracket  \"(\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                    errorLines.push_back("Missing \"Close Bracket  \")\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                     for(int ii=0; ii <7;ii++)
                     {
                         errorCodeLine[ii] = " ";
@@ -560,7 +560,7 @@ int main() {
                             errorCodeLine[6] = tError->getStringRep();
                         }
                         }
-                        errorLines.push_back("Missing \"Close Bracket \")\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
+                        errorLines.push_back("Missing \"Open Bracket \"(\"  \" here: "+errorCodeLine[0]+" "+errorCodeLine[1]+" "+errorCodeLine[2]+" "+errorCodeLine[3]+" "+errorCodeLine[4]+" "+errorCodeLine[5]+" "+errorCodeLine[6]);
                         for(int ii=0; ii <7;ii++)
                         {
                             errorCodeLine[ii] = " ";
@@ -631,13 +631,13 @@ int main() {
     }
     else if (BracketBalance > 0)
     {
-       numberofMissingCloseBracket = abs(processBalance);
+       numberofMissingCloseBracket = abs(BracketBalance);
        numberofMissingOpenBracket =0;
 
     }
-    else if (processBalance <0)
+    else if (BracketBalance < 0)
     {
-        numberofMissingOpenBracket = numberofMissingOpenBracket + abs(processBalance);
+        numberofMissingOpenBracket = numberofMissingOpenBracket + abs(BracketBalance);
         numberofMissingCloseBracket=0;
     }
 
